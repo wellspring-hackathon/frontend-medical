@@ -1,23 +1,29 @@
-import { pgTable, integer,  uuid } from "drizzle-orm/pg-core";
-
+import { pgTable, integer, uuid, varchar, text, pgEnum, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-export const user = pgTable("user-wellspring", {
-id: uuid("id").defaultRandom().primaryKey(),
-  balance: integer("balance").notNull(),
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => profile.id, {
-      onDelete: "cascade",
-    }),
+// Create role enum
+export const roleEnum = pgEnum("role", ["patient", "doctor", "admin"]);
+
+export const user = pgTable("user", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  phone: varchar("phone", { length: 20 }),
+  password: text("password").notNull(),
+  firstName: varchar("first_name", { length: 100 }).notNull(),
+  lastName: varchar("last_name", { length: 100 }).notNull(),
+  role: roleEnum("role").notNull().default("patient"),
+  balance: integer("balance").notNull().default(0),
+  specialization: varchar("specialization", { length: 255 }),
+  licenseNo: varchar("license_no", { length: 100 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const userRelations = relations(user, ({ one }) => ({
-      profile: one(profile, {
-        fields: [user.userId],
-        references: [profile.id],
-      }),
-    }));
+export const userRelations = relations(user, ({ many }) => ({
+  // You can define any related tables here
+  // For example, if you had appointments:
+  // appointments: many(appointment)
+}));
 
 export type UserSelect = typeof user.$inferSelect;
 export type UserInsert = typeof user.$inferInsert;
