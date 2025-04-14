@@ -1,4 +1,12 @@
-import { pgTable, integer, uuid, varchar, text, pgEnum, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  integer,
+  uuid,
+  varchar,
+  text,
+  pgEnum,
+  timestamp
+} from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 // Create role enum
@@ -16,7 +24,7 @@ export const user = pgTable("user", {
   specialization: varchar("specialization", { length: 255 }),
   licenseNo: varchar("license_no", { length: 100 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull()
 });
 
 export const userRelations = relations(user, ({ many }) => ({

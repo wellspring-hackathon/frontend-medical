@@ -1,5 +1,11 @@
-
-import { pgTable, integer, text, uuid, varchar, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  integer,
+  text,
+  uuid,
+  varchar,
+  timestamp
+} from "drizzle-orm/pg-core";
 import { profile } from "./profile";
 import { relations } from "drizzle-orm";
 
@@ -19,17 +25,17 @@ export const healthcare = pgTable("healthcare", {
   userId: uuid("user_id")
     .notNull()
     .references(() => profile.id, {
-      onDelete: "cascade",
+      onDelete: "cascade"
     }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull()
 });
 
 export const healthcareRelations = relations(healthcare, ({ one }) => ({
   profile: one(profile, {
     fields: [healthcare.userId],
-    references: [profile.id],
-  }),
+    references: [profile.id]
+  })
 }));
 
 export type HealthcareSelect = typeof healthcare.$inferSelect;

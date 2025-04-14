@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier --write \"src/**/*.ts\"",
     "generate": "npx drizzle-kit generate",
     "migrate": "tsx ./src/migrate.ts",
     "db:update": "npm run generate && tsx ./src/migrate.ts"
@@ -32,7 +33,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "drizzle-kit": "^0.30.6",
+    "drizzle-kit": "^0.18.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.26",
     "postcss": "^8",
