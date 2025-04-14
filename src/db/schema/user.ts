@@ -27,7 +27,7 @@ export const user = pgTable("user", {
   updatedAt: timestamp("updated_at").defaultNow().notNull()
 });
 
-export const userRelations = relations(user, ({ many }) => ({
+export const userRelations = relations(user, () => ({
   // You can define any related tables here
   // For example, if you had appointments:
   // appointments: many(appointment)

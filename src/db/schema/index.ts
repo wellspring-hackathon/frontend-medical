@@ -1,5 +1,26 @@
-export { profile, profileRelations } from "@/db/schema/";
-export { account, accountRelations } from "@/db/schema/account";
-export { bank, bankRelations } from "@/db/schema/bank";
-export { deposit, depositRelations } from "@/db/schema/deposit";
-export { transaction, transactionRelations } from "@/db/schema/transactions";
+export { user, userRelations } from "@/db/schema/user";
+export { appointment, appointmentRelations } from "@/db/schema/appointment";
+export { chatMessages, chatMessagesRelations } from "@/db/schema/chatMessage";
+export { consultations, consultationRelations } from "@/db/schema/consultation";
+export { doctor, doctorRelations } from "@/db/schema/doctor";
+export { feedback, feedbackRelations } from "@/db/schema/feedback";
+export {
+  healthcareProviders,
+  healthcareRelations
+} from "@/db/schema/healthcare";
+export {
+  medicalRecords,
+  medicalRecordsRelations
+} from "@/db/schema/medicalRecords";
+export {
+  notifications,
+  notifcationsRelations
+} from "@/db/schema/notifications";
+export {
+  resourceInventory,
+  resourceInventoryRelations
+} from "@/db/schema/resourceInventory";
+export {
+  teleconsultation,
+  teleconsultationRelations
+} from "@/db/schema/teleconsultation";

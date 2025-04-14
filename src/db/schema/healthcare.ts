@@ -6,10 +6,10 @@ import {
   varchar,
   timestamp
 } from "drizzle-orm/pg-core";
-import { profile } from "./profile";
+import { user } from "./user";
 import { relations } from "drizzle-orm";
 
-export const healthcare = pgTable("healthcare", {
+export const healthcareProviders = pgTable("healthcare_providers", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   address: text("address").notNull(),
@@ -21,22 +21,24 @@ export const healthcare = pgTable("healthcare", {
   specialties: text("specialties").array().notNull(),
   availableBeds: integer("available_beds").notNull(),
   equipment: text("equipment").array().notNull(),
-  createdBy: uuid("created_by").notNull(),
-  userId: uuid("user_id")
+  createdBy: uuid("created_by")
     .notNull()
-    .references(() => profile.id, {
+    .references(() => user.id, {
       onDelete: "cascade"
     }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull()
 });
 
-export const healthcareRelations = relations(healthcare, ({ one }) => ({
-  profile: one(profile, {
-    fields: [healthcare.userId],
-    references: [profile.id]
+export const healthcareRelations = relations(
+  healthcareProviders,
+  ({ one }) => ({
+    profile: one(user, {
+      fields: [healthcareProviders.createdBy],
+      references: [user.id]
+    })
   })
-}));
+);
 
-export type HealthcareSelect = typeof healthcare.$inferSelect;
-export type HealthcareInsert = typeof healthcare.$inferInsert;
+export type HealthcareSelect = typeof healthcareProviders.$inferSelect;
+export type HealthcareInsert = typeof healthcareProviders.$inferInsert;

@@ -1,18 +1,17 @@
 import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
-import { profile } from "./profile";
-import { healthcare } from "./healthcare";
+import { user } from "./user";
+import { healthcareProviders } from "./healthcare";
 import { relations } from "drizzle-orm";
 
 export const doctor = pgTable("doctor", {
-  id: uuid("id").defaultRandom().primaryKey(),
   userId: uuid("user_id")
     .notNull()
-    .references(() => profile.id, {
+    .references(() => user.id, {
       onDelete: "cascade"
     }),
   healthcareProviderId: uuid("healthcare_provider_id")
     .notNull()
-    .references(() => healthcare.id, {
+    .references(() => healthcareProviders.id, {
       onDelete: "cascade"
     }),
   specialization: varchar("specialization", { length: 255 }).notNull(),
@@ -23,13 +22,13 @@ export const doctor = pgTable("doctor", {
 });
 
 export const doctorRelations = relations(doctor, ({ one }) => ({
-  profile: one(profile, {
+  profile: one(user, {
     fields: [doctor.userId],
-    references: [profile.id]
+    references: [user.id]
   }),
-  healthcareProvider: one(healthcare, {
+  healthcareProvider: one(healthcareProviders, {
     fields: [doctor.healthcareProviderId],
-    references: [healthcare.id]
+    references: [healthcareProviders.id]
   })
 }));
 

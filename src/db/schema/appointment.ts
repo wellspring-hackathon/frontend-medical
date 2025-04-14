@@ -1,8 +1,25 @@
+import {
+  pgTable,
+  pgEnum,
+  text,
+  timestamp,
+  uuid,
+  date
+} from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { user } from "./user";
+import { healthcareProviders } from "./healthcare";
+
 export const appointmentStatusEnum = pgEnum("appointment_status", [
   "pending",
   "confirmed",
   "cancelled",
   "completed"
+]);
+
+export const consultationTypeEnum = pgEnum("consultation_type", [
+  "in-person",
+  "teleconsultation"
 ]);
 
 export const appointment = pgTable("appointment", {
@@ -19,7 +36,7 @@ export const appointment = pgTable("appointment", {
     }),
   healthcareProviderId: uuid("healthcare_provider_id")
     .notNull()
-    .references(() => healthcare.id, {
+    .references(() => healthcareProviders.id, {
       onDelete: "cascade"
     }),
   date: date("date").notNull(),
@@ -43,9 +60,9 @@ export const appointmentRelations = relations(appointment, ({ one }) => ({
     fields: [appointment.doctorId],
     references: [user.id]
   }),
-  healthcareProvider: one(healthcare, {
+  healthcareProvider: one(healthcareProviders, {
     fields: [appointment.healthcareProviderId],
-    references: [healthcare.id]
+    references: [healthcareProviders.id]
   })
 }));
 

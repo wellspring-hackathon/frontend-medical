@@ -1,29 +1,52 @@
-import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
-import { profile } from "./profile";
+// drizzle/schema.ts
+import { pgTable, uuid, text, timestamp } from "drizzle-orm/pg-core";
+import { user } from "./user";
 import { relations } from "drizzle-orm";
-import { deposit } from "./deposit";
+import { appointment } from "./appointment";
 
-export const consultation = pgTable("consultation-wellspring", {
+// Consultation Table
+export const consultations = pgTable("consultations", {
   id: uuid("id").defaultRandom().primaryKey(),
-
-  userId: uuid("user_id")
+  appointmentId: uuid("appointment_id")
     .notNull()
-    .references(() => profile.id, {
+    .references(() => appointment.id, {
       onDelete: "cascade"
     }),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  depositId: uuid("deposit_id").references(() => deposit.id, {
-    onDelete: "cascade"
-  }),
-  updatedAt: timestamp("updated_at").defaultNow().notNull()
+  doctorId: uuid("doctor_id")
+    .notNull()
+    .references(() => user.id, {
+      onDelete: "cascade"
+    }),
+  patientId: uuid("patient_id")
+    .notNull()
+    .references(() => user.id, {
+      onDelete: "cascade"
+    }),
+  startTime: timestamp("start_time", { withTimezone: true }).notNull(),
+  endTime: timestamp("end_time", { withTimezone: true }).notNull(),
+  videoUrl: text("video_url"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull()
 });
 
-export const consultationRelations = relations(consultation, ({ one }) => ({
-  profile: one(profile, {
-    fields: [consultation.userId],
-    references: [profile.id]
+export const consultationRelations = relations(consultations, ({ one }) => ({
+  patient: one(user, {
+    fields: [consultations.patientId],
+    references: [user.id]
+  }),
+  doctor: one(user, {
+    fields: [consultations.doctorId],
+    references: [user.id]
+  }),
+  appointment: one(appointment, {
+    fields: [consultations.appointmentId],
+    references: [appointment.id]
   })
 }));
 
-export type ConsultationSelect = typeof consultation.$inferSelect;
-export type ConsultationInsert = typeof consultation.$inferInsert;
+export type consultationSelect = typeof consultations.$inferSelect;
+export type consultationInsert = typeof consultations.$inferInsert;
