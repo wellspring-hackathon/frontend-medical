@@ -1,6 +1,5 @@
 import {
   pgTable,
-  integer,
   uuid,
   varchar,
   text,
@@ -20,7 +19,6 @@ export const user = pgTable("user", {
   firstName: varchar("first_name", { length: 100 }).notNull(),
   lastName: varchar("last_name", { length: 100 }).notNull(),
   role: roleEnum("role").notNull().default("patient"),
-  balance: integer("balance").notNull().default(0),
   specialization: varchar("specialization", { length: 255 }),
   licenseNo: varchar("license_no", { length: 100 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
