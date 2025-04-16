@@ -2,7 +2,7 @@ import NextAuth, { type User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/connect";
-import { profile } from "../db/schema";
+import { user } from "@/db/schema";
 
 export const {
   auth,
@@ -20,8 +20,8 @@ export const {
         try {
           const existingUser = await db
             .selectDistinct()
-            .from(profile)
-            .where(eq(profile.email, credentials?.email as string));
+            .from(user)
+            .where(eq(user.email, credentials?.email as string));
 
           // console.log("hahahahahah  ", existingUsersssss);
           if (existingUser.length < 1) {
@@ -32,12 +32,12 @@ export const {
             throw new Error("Password Incorrect");
           }
 
-          const user: User = {
+          const userInfo: User = {
             id: existingUser[0].id,
             email: existingUser[0].email,
             name: existingUser[0].firstName + " " + existingUser[0].lastName
           };
-          return user;
+          return userInfo;
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           console.log(error);
