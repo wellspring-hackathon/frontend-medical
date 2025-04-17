@@ -16,13 +16,13 @@ export const appointmentStatusEnum = pgEnum("appointment_status", [
   "cancelled",
   "completed"
 ]);
-
 export const consultationTypeEnum = pgEnum("consultation_type", [
   "in-person",
   "teleconsultation"
 ]);
 
-export const appointment = pgTable("appointment", {
+
+export const appointment = pgTable("appointment-table", {
   id: uuid("id").defaultRandom().primaryKey(),
   patientId: uuid("patient_id")
     .notNull()

@@ -9,7 +9,7 @@ import {
 import { user } from "./user";
 import { relations } from "drizzle-orm";
 
-export const notificationsTypeEnum = pgEnum("consultation_type", [
+export const notificationsTypeEnum = pgEnum("notification_type", [
   "appointment_reminder",
   "booking_confirmation"
 ]);
