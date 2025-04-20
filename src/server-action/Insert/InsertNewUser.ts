@@ -40,6 +40,6 @@ export async function insertCoreUser(data: z.infer<typeof RegisterSchema>) {
     return { success: true };
   } catch (error: unknown) {
     console.error(error);
-    return { error: true, errorMsg: "Eerror while registering" };
+    return { error: true, errorMsg: "Error while registering" };
   }
 }
