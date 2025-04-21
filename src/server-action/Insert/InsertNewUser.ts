@@ -25,8 +25,7 @@ export async function insertCoreUser(data: z.infer<typeof RegisterSchema>) {
     });
     if (checkIfEmailExists) return { duplicate: true };
     await db
-      .insert(user)
-      .values({
+      .insert(user).values({
         email,
         password: hashedPassword,
         firstName,
