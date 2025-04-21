@@ -1,22 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
+import { useState } from "react";
 
+import { HeartPulse } from "lucide-react";
 import Link from "next/link";
-import { ArrowRightIcon, ArrowRightToLine, HeartPulse } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import { usePathname } from "next/navigation";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle
+  NavigationMenuList
 } from "@/components/ui/navigation-menu";
 import { appName } from "@/constants";
+import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import RegisterButton from "./register-button";
 
 const Navbar = () => {
@@ -27,11 +25,11 @@ const Navbar = () => {
   if (pathname.includes("/site/dashboard")) return null;
 
   const navItems = [
-    { href: "/site/useCases", label: "Features" },
-    { href: "/site/Demo", label: "How it Works" },
-    { href: "/site/pricing", label: "For Providers" },
-    { href: "/site/demo", label: "For doctors" },
-    { href: "/site/faq", label: "Login" }
+    { href: "#features", label: "Features" },
+    { href: "#how-it-works", label: "How it Works" },
+    { href: "#providers", label: "For Providers" },
+    { href: "#providers", label: "For doctors" },
+    { href: "#cta", label: "Login" }
   ];
 
   return (
@@ -46,7 +44,7 @@ const Navbar = () => {
         </div>
 
         {/* Navigation Links Section */}
-        <div className="hidden items-center justify-center text-lg font-semibold lg:flex">
+        <div className="hidden items-center justify-center text-lg font-semibold lg:flex text-gray-600">
           <NavigationMenu>
             <NavigationMenuList className="gap-12">
               {navItems.map((item) => (

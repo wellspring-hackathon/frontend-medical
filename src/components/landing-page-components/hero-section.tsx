@@ -20,7 +20,7 @@ export default function HeroSection() {
         {/* Text Content */}
         <div className="flex flex-col space-y-6">
           <h1 className="text-primary text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            Quality Healthcare, Just A Click Away
+            <span className="text-foreground">Quality Healthcare,</span> Just A Click Away
           </h1>
 
           <p className="text-muted-foreground text-xl sm:text-2xl">
@@ -42,12 +42,12 @@ export default function HeroSection() {
           <div className="absolute -left-6 -top-6 h-64 w-64 rounded-full bg-blue-200 opacity-30 mix-blend-multiply blur-xl filter"></div>
           <div className="absolute -bottom-8 -right-8 h-72 w-72 rounded-full bg-purple-200 opacity-30 mix-blend-multiply blur-xl filter"></div>
 
-          <div className="relative z-10 h-auto w-full max-w-md overflow-hidden rounded-lg shadow-lg">
+          <div className="relative z-10 h-auto w-full overflow-hidden rounded-lg shadow-lg max-w-[500px] max-h-[600px]">
             <Image
               src={heroImg}
               alt="Healthcare professionals"
               className="h-auto w-full object-cover"
-              width={1000}
+              width={700}
               height={200}
               priority
             />

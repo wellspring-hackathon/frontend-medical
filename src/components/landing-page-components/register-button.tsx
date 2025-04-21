@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { ArrowRightToLine } from "lucide-react";
 
-const RegisterButton = () => {
+const RegisterButton = ({}) => {
   return (
     <Button
       size="lg"

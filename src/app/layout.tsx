@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import {Poppins} from 'next/font/google'
 import Navbar from "@/components/landing-page-components/Navbar";
 
 const geistSans = localFont({
@@ -14,6 +15,13 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900"
 });
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // You can add any other weights needed
+  display: "swap",
+});
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        className={`${poppins.className}  antialiased`}>
         <SessionProvider>
           <main className="flex flex-col min-h-screen bg-background text-foreground">
             <Navbar/>
