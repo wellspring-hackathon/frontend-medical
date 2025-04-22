@@ -21,7 +21,6 @@ export const consultationTypeEnum = pgEnum("consultation_type", [
   "teleconsultation"
 ]);
 
-
 export const appointment = pgTable("appointment-table", {
   id: uuid("id").defaultRandom().primaryKey(),
   patientId: uuid("patient_id")

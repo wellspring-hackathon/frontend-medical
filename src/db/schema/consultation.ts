@@ -4,8 +4,6 @@ import { user } from "./user";
 import { relations } from "drizzle-orm";
 import { appointment } from "./appointment";
 
-
-
 // Consultation Table
 export const consultations = pgTable("consultations", {
   id: uuid("id").defaultRandom().primaryKey(),
