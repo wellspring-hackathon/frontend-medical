@@ -10,7 +10,7 @@ const RegisterButton = ({}) => {
       className="bg-primary text-primary-foreground w-full text-lg sm:w-auto"
       variant="outline"
       asChild>
-      <Link href="/login" className="flex items-center justify-center">
+      <Link href="/onboarding" className="flex items-center justify-center">
         Get Started
         <ArrowRightToLine className="ml-2 h-5 w-5" />
       </Link>

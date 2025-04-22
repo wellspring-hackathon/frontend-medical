@@ -21,8 +21,10 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  const hiddenRoutes = ["/dashboard", "/onboarding"]
+
   // Hide Navbar on specific routes
-  if (pathname.includes("/site/dashboard")) return null;
+  if (hiddenRoutes.includes(pathname)) return null;
 
   const navItems = [
     { href: "#features", label: "Features" },
@@ -33,7 +35,8 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="border-b px-4">
+    <nav className="fixed top-0 left-0 w-full z-50 border-b px-4">
+
       <div className="flex h-16 items-center justify-between px-4">
         {/* Logo Section */}
         <div className="">

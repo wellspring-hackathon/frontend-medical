@@ -1,21 +1,17 @@
-import CTA from "@/components/landing-page-components/cta";
-import Features from "@/components/landing-page-components/features";
-import Footer from "@/components/landing-page-components/footer";
-import HealthProviders from "@/components/landing-page-components/health-providers";
-import HeroSection from "@/components/landing-page-components/hero-section";
-import Perks from "@/components/landing-page-components/perks";
-import Steps from "@/components/landing-page-components/steps";
+import { CTA, Features, Footer, HealthProviders, HeroSection, Navbar, Perks, Steps } from "@/components/landing-page-components";
+
 
 export default function Home() {
   return (
     <div>
+      <Navbar/>
       <HeroSection />
-      <Perks/>
-      <Features/>
-      <Steps/>
-      <HealthProviders/>
-      <CTA/>
-      <Footer/>
+      <Perks />
+      <Features />
+      <Steps />
+      <HealthProviders />
+      <CTA />
+      <Footer />
     </div>
   );
 }
