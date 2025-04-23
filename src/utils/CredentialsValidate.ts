@@ -1,4 +1,3 @@
-
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { user } from "@/db/schema";

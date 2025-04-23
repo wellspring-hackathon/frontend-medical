@@ -1,16 +1,16 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import {toast} from "react-hot-toast"
+import { toast } from "react-hot-toast";
 
 export const useLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPasswword] = useState("");
-  const [loading , setLoading] = useState(false)
-  const {push} = useRouter()
+  const [loading, setLoading] = useState(false);
+  const { push } = useRouter();
 
   const handleSubmit = async () => {
-    setLoading(true)
+    setLoading(true);
     await signIn("credentials", {
       redirect: false,
       email: email,
@@ -27,5 +27,13 @@ export const useLogin = () => {
     });
   };
 
-  return { handleSubmit , email, password, setEmail, setPasswword, loading , setLoading};
+  return {
+    handleSubmit,
+    email,
+    password,
+    setEmail,
+    setPasswword,
+    loading,
+    setLoading
+  };
 };

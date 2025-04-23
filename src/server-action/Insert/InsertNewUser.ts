@@ -28,6 +28,7 @@ export async function insertCoreUser(data: z.infer<typeof RegisterSchema>) {
       .insert(user).values({
         email,
         password: hashedPassword,
+
         firstName,
         lastName,
         licenseNo,
