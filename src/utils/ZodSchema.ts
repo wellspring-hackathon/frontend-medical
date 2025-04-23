@@ -5,7 +5,7 @@ export const RegisterSchema = z
     lastName: z.string().min(1, "Last Name is required"),
     specialization: z.string().min(1, "specialization is required"),
     licenseNo: z.string().min(1, "licenseNo is required"),
-    role: z.enum(["patient", "doctor"]).default("patient"),
+    role:  z.enum(["patient","doctor", "admin"]).default("patient"),
     phone: z
       .string()
       .min(11, "Phone number must be at least 11 digits")
