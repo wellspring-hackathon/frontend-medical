@@ -14,6 +14,31 @@ END $$;
 
 DO $$ 
 BEGIN
+  CREATE TYPE "public"."telecommunication_status" AS ENUM(
+    'active',
+  	'closed'
+  );
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
+
+--> statement-breakpoint
+
+DO $$ 
+BEGIN
+  CREATE TYPE "public"."role" AS ENUM(
+    'patient',
+	'doctor',
+	'admin'
+  );
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
+
+--> statement-breakpoint
+
+DO $$ 
+BEGIN
   CREATE TYPE "public"."consultation_type" AS ENUM(
     'in-person',
     'teleconsultation'
@@ -33,7 +58,7 @@ EXCEPTION
 END $$;
 
 --> statement-breakpoint
-CREATE TABLE "appointment-table" (
+CREATE TABLE IF NOT EXISTS "appointment-table" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"patient_id" uuid NOT NULL,
 	"doctor_id" uuid NOT NULL,
@@ -48,7 +73,7 @@ CREATE TABLE "appointment-table" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "chat_messages" (
+CREATE TABLE IF NOT EXISTS "chat_messages" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"consultation_id" uuid NOT NULL,
 	"sender_id" uuid NOT NULL,
@@ -56,7 +81,7 @@ CREATE TABLE "chat_messages" (
 	"timestamp" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "consultations" (
+CREATE TABLE IF NOT EXISTS "consultations" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"appointment_id" uuid NOT NULL,
 	"doctor_id" uuid NOT NULL,
@@ -68,7 +93,7 @@ CREATE TABLE "consultations" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "doctor" (
+CREATE TABLE IF NOT EXISTS "doctor" (
 	"user_id" uuid NOT NULL,
 	"healthcare_provider_id" uuid NOT NULL,
 	"specialization" varchar(255) NOT NULL,
@@ -78,7 +103,7 @@ CREATE TABLE "doctor" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "feedback" (
+CREATE TABLE IF NOT EXISTS "feedback" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"patient_id" uuid NOT NULL,
 	"doctor_id" uuid NOT NULL,
@@ -88,7 +113,7 @@ CREATE TABLE "feedback" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "healthcare_providers" (
+CREATE TABLE IF NOT EXISTS "healthcare_providers" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"address" text NOT NULL,
@@ -105,7 +130,7 @@ CREATE TABLE "healthcare_providers" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "medical_records" (
+CREATE TABLE IF NOT EXISTS "medical_records" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"patient_id" uuid NOT NULL,
 	"appointment_id" uuid NOT NULL,
@@ -117,7 +142,7 @@ CREATE TABLE "medical_records" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "notifications" (
+CREATE TABLE IF NOT EXISTS "notifications" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" uuid NOT NULL,
 	"type" "notification_type" DEFAULT 'appointment_reminder' NOT NULL,
@@ -126,7 +151,7 @@ CREATE TABLE "notifications" (
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "resource_inventory" (
+CREATE TABLE IF NOT EXISTS "resource_inventory" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"healthcare_provider_id" uuid NOT NULL,
 	"resource_type" varchar(100) NOT NULL,
@@ -136,7 +161,7 @@ CREATE TABLE "resource_inventory" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "consultation-wellspring" (
+CREATE TABLE IF NOT EXISTS "consultation-wellspring" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"appointment_id" uuid NOT NULL,
 	"status" "telecommunication_status" DEFAULT 'closed' NOT NULL,
@@ -144,7 +169,7 @@ CREATE TABLE "consultation-wellspring" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "user" (
+CREATE TABLE IF NOT EXISTS "user" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"phone" varchar(20),
