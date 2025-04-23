@@ -1,21 +1,21 @@
 "use client";
 
-import DocRegistrationForm from "@/components/auth-components/doc-registration-form";
+import FacilityRegisterationForm from "@/components/auth-components/facility-registeration-form";
 
 
 
 
-const DoctorRegisterPage = () => {
+const FacilityRegistrationPage = () => {
   return (
     <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-3xl">
-        <DocRegistrationForm />
+        <FacilityRegisterationForm/>
       </div>
     </div>
   );
 };
 
-export default DoctorRegisterPage;
+export default FacilityRegistrationPage;
 
 
 

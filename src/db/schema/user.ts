@@ -9,7 +9,7 @@ import {
 import { relations } from "drizzle-orm";
 
 // Create role enum
-export const roleEnum = pgEnum("role", ["patient", "doctor", "admin"]);
+export const roleEnum = pgEnum("role", ["patient", "doctor", "admin", "healthcare-provider"]);
 
 export const user = pgTable("user", {
   id: uuid("id").defaultRandom().primaryKey(),

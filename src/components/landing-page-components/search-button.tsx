@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
 
 const SearchButton = () => {
   return (
-    <Button variant="outline" size="lg" asChild  className="text-lg">
+    <Button variant="outline" size="lg" asChild  className="text-lg hover:bg-primary hover:text-primary-foreground">
       <Link href="/search">
         Find Doctors
         <Search className="ml-2 h-4 w-4" />

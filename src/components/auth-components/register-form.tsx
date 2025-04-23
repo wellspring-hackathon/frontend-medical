@@ -1,24 +1,24 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { appName } from "@/constants";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { appName, userRegImg } from "@/constants";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
@@ -46,11 +46,14 @@ export function RegisterForm({
     }
   });
 
+  const router = useRouter();
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    router.push("/onboarding");
   }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -62,7 +65,7 @@ export function RegisterForm({
               className="space-y-8 p-6 md:p-8">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Create an account</h1>
-                <p className="text-muted-foreground text-wrap">
+                <p className="text-wrap text-muted-foreground">
                   {`Sign up for full access to ${appName}`}
                 </p>
               </div>
@@ -133,26 +136,26 @@ export function RegisterForm({
                   </FormItem>
                 )}
               />
-
-              <Button type="submit" className="w-full text-md" asChild>
-                <div>
-                  Register
-                  <ArrowRight />
-                </div>
+              <Button type="submit" className="text-md w-full cursor-pointer">
+                Register
+                <ArrowRight />
               </Button>
             </form>
           </Form>
 
-          <div className="bg-muted relative hidden md:block">
-            <img
-              src="/placeholder.svg"
+          <div className="relative hidden bg-muted md:block">
+            <Image
+              src={userRegImg}
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              width={500}
+              height={500}
+              priority
             />
           </div>
         </CardContent>
       </Card>
-      <div className="text-muted-foreground hover:[&_a]:text-primary text-balance text-center text-xs [&_a]:underline [&_a]:underline-offset-4">
+      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
       </div>
