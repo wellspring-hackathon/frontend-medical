@@ -6,7 +6,8 @@ import facilityRegImg from './facility_reg.png'
 import facilityRegImg2 from './facility_reg2.png'
 import loginImg from './login_image.png'
 
-const appName = "WellJourney"
+const appName = "WellJourney";
+
 
 
 export {appName, heroImg, provImg, userRegImg, docRegImg, facilityRegImg, facilityRegImg2, loginImg}

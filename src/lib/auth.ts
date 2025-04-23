@@ -2,6 +2,12 @@ import NextAuth from "next-auth";
 import { validateCredentials } from "@/utils/CredentialsValidate";
 import Credentials from "next-auth/providers/credentials";
 
+declare module "next-auth"{
+  interface User {
+      role: "admin" | "doctor" | "patient"
+  }
+}
+
 export const {
   auth,
   handlers: { GET, POST }
@@ -11,14 +17,23 @@ export const {
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        password: { label: "Password", type: "password" }
       },
-      authorize: validateCredentials,
-    }),
+      authorize: validateCredentials
+    })
   ],
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60 // 30 days
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  cookies: {
+    sessionToken: {
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+      }
+    }
   },
   callbacks: {
     // @ts-expect-error jjj
@@ -29,7 +44,8 @@ export const {
           ...session.user,
           email: token.email,
           id: token.id,
-          randomKey: token.randomKey
+          role: token.role,
+          randomKey: token.randomKey,
         }
       };
     },
@@ -40,7 +56,9 @@ export const {
         return {
           ...token,
           id: u.id,
-          randomKey: u.randomKey
+          role: u.role,
+          email: u.email,
+          randomKey: u.randomKey,
         };
       }
       return token;

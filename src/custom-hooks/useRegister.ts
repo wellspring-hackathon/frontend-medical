@@ -8,20 +8,20 @@ import { insertCoreUser } from "@/server-action/Insert/InsertNewUser";
 import { RegisterSchema } from "@/utils/ZodSchema";
 
 export const useRegister = () => {
-//   const { push } = useRouter();
+  //   const { push } = useRouter();
   const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-    resetField,
+    resetField
   } = useForm({ resolver: zodResolver(RegisterSchema) });
   const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
     setLoading(true);
     const { duplicate, error, success } = await insertCoreUser(data);
     if (success) {
-        //  push to successful link
-    //   push(`/register/onboarding/${data.email}`);
+      //  push to successful link
+      //   push(`/register/onboarding/${data.email}`);
     }
     if (duplicate) {
       setLoading(false);
