@@ -21,7 +21,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const hiddenRoutes = ["/dashboard", "/onboarding"]
+  const hiddenRoutes = ["/dashboard", "/onboarding"];
 
   // Hide Navbar on specific routes
   if (hiddenRoutes.includes(pathname)) return null;
@@ -31,23 +31,22 @@ const Navbar = () => {
     { href: "#how-it-works", label: "How it Works" },
     { href: "#providers", label: "For Providers" },
     { href: "#providers", label: "For doctors" },
-    { href: "#cta", label: "Login" }
+    { href: "/login", label: "Login" }
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 border-b px-4">
-
+    <nav className="fixed left-0 top-0 z-50 w-full border-b px-4">
       <div className="flex h-16 items-center justify-between px-4">
         {/* Logo Section */}
         <div className="">
           <Link href="/" className="flex items-center">
-            <HeartPulse className="text-primary mr-1" />
+            <HeartPulse className="mr-1 text-primary" />
             <span className="text-xl font-bold">{appName}</span>
           </Link>
         </div>
 
         {/* Navigation Links Section */}
-        <div className="hidden items-center justify-center text-lg font-semibold lg:flex text-gray-600">
+        <div className="hidden items-center justify-center text-lg font-semibold text-gray-600 lg:flex">
           <NavigationMenu>
             <NavigationMenuList className="gap-12">
               {navItems.map((item) => (
@@ -64,14 +63,16 @@ const Navbar = () => {
         </div>
 
         {/* User Actions Section */}
-        <div className="flex items-center space-x-4 ">
-         <RegisterButton/>
+        <div className="flex items-center space-x-4">
+          <RegisterButton />
 
           {/* Mobile Menu Toggle Button */}
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={() => {
+              setIsMenuOpen(!isMenuOpen);
+            }}
             className="md:hidden">
             {isMenuOpen ? (
               <X className="h-6 w-6" />
@@ -83,11 +84,13 @@ const Navbar = () => {
       </div>
       {/* mobile menu */}
       {isMenuOpen && (
-        <div className="border-primary fixed inset-0 z-50 h-[400px] w-[200px] rounded-md border-2 bg-background md:hidden">
+        <div className="fixed inset-0 z-50 h-[400px] w-[200px] rounded-md border-2 border-primary bg-background md:hidden">
           {/* Backdrop */}
           <div
             className="absolute inset-0"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={() => {
+              setIsMenuOpen(false);
+            }}
           />
 
           {/* Menu Content */}
@@ -97,7 +100,9 @@ const Navbar = () => {
                 key={item.href}
                 href={item.href}
                 className="block rounded-md px-3 py-2 text-lg font-medium hover:bg-gray-200"
-                onClick={() => setIsMenuOpen(false)}>
+                onClick={() => {
+                  setIsMenuOpen(false);
+                }}>
                 {item.label}
               </Link>
             ))}
