@@ -1,11 +1,11 @@
 import { z } from "zod";
-export const RegisterSchema = z
+export const SomeSchema = z
   .object({
     firstName: z.string().min(1, "First Name is required"),
     lastName: z.string().min(1, "Last Name is required"),
     specialization: z.string().min(1, "specialization is required"),
     licenseNo: z.string().min(1, "licenseNo is required"),
-    role:  z.enum(["patient","doctor", "admin"]).default("patient"),
+    role: z.enum(["patient", "doctor", "admin"]).default("patient"),
     phone: z
       .string()
       .min(11, "Phone number must be at least 11 digits")
@@ -18,3 +18,17 @@ export const RegisterSchema = z
     message: "Passwords must match",
     path: ["confirmPassword"]
   });
+
+export const RegisterSchema = z.object({
+  firstName: z.string().min(1, { message: "First name is required" }),
+  lastName: z.string().min(1, { message: "Last name is required" }),
+  email: z.string().email({ message: "Must be a valid email" }),
+  phone: z
+    .string()
+    .min(1, { message: "Phone number is required" })
+    .regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/, {
+      message: "Invalid phone number format"
+    })
+});
+
+export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
