@@ -2,12 +2,12 @@
 
 import { db } from "@/db/connect";
 import { user } from "@/db/schema";
-import { type RegisterSchema } from "@/utils/ZodSchema";
+import { type SomeSchema } from "@/utils/ZodSchema";
 import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { type z } from "zod";
 
-export async function insertCoreUser(data: z.infer<typeof RegisterSchema>) {
+export async function insertCoreUser(data: z.infer<typeof SomeSchema>) {
   const {
     email,
     firstName,
@@ -25,7 +25,8 @@ export async function insertCoreUser(data: z.infer<typeof RegisterSchema>) {
     });
     if (checkIfEmailExists) return { duplicate: true };
     await db
-      .insert(user).values({
+      .insert(user)
+      .values({
         email,
         password: hashedPassword,
 

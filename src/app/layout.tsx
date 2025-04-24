@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Poppins } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -24,8 +25,8 @@ export default function RootLayout({
       <body className={`${poppins.className} antialiased`}>
         <SessionProvider>
           <main className="flex min-h-screen flex-col bg-background text-foreground">
-          
             {children}
+            <Toaster />
           </main>
         </SessionProvider>
       </body>
