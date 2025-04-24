@@ -7,7 +7,25 @@ import facilityRegImg2 from './facility_reg2.png'
 import loginImg from './login_image.png'
 
 const appName = "WellJourney";
+// List of medical specializations
+ export const medicalSpecializations = [
+  "Cardiology",
+  "Dermatology",
+  "Endocrinology",
+  "Family Medicine",
+  "Gastroenterology",
+  "Neurology",
+  "Obstetrics & Gynecology",
+  "Oncology",
+  "Ophthalmology",
+  "Orthopedics",
+  "Pediatrics",
+  "Psychiatry",
+  "Radiology",
+  "Surgery",
+  "Urology",
+] as const;
 
 
 
-export {appName, heroImg, provImg, userRegImg, docRegImg, facilityRegImg, facilityRegImg2, loginImg}
+export {appName, heroImg, provImg, userRegImg, docRegImg, facilityRegImg, facilityRegImg2, loginImg,}

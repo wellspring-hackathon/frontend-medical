@@ -5,7 +5,7 @@ export const RegisterSchema = z
     lastName: z.string().min(1, "Last Name is required"),
     specialization: z.string().min(1, "specialization is required"),
     licenseNo: z.string().min(1, "licenseNo is required"),
-    role:  z.enum(["patient","doctor", "admin"]).default("patient"),
+    role:  z.enum(["patient","doctor", "admin"]),
     phone: z
       .string()
       .min(11, "Phone number must be at least 11 digits")
@@ -17,4 +17,30 @@ export const RegisterSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords must match",
     path: ["confirmPassword"]
+  });
+
+  export const FacilitySchema = z.object({
+    name: z.string().min(1, { message: "Name is required" }),
+    address: z.string().min(1, { message: "Address is required" }),
+    localGovernment: z
+      .string()
+      .min(1, { message: "Local government is required" }),
+    city: z.string().min(1, { message: "City is required" }),
+    state: z.string().min(1, { message: "State is required" }),
+    specialties: z
+      .array(z.string())
+      .nonempty({ message: "At least one specialty required" }),
+    availableBeds: z.number().int().nonnegative(),
+    equipment: z
+      .array(z.string())
+      .nonempty({ message: "At least one equipment required" }),
+  
+    // Keep contact validations as-is (they match DB)
+    contactEmail: z.string().email({ message: "Must be a valid email" }),
+    contactPhone: z
+      .string()
+      .min(1, { message: "Phone number is required" })
+      .regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/, {
+        message: "Invalid phone number format"
+      })
   });

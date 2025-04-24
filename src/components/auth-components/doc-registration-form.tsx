@@ -1,270 +1,265 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { appName, docRegImg, userRegImg } from "@/constants";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Plus, Trash2 } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
-import { useForm, useFieldArray, FieldValues } from "react-hook-form";
-import { z } from "zod";
+import { useState } from "react"
+import type React from "react"
 
-// List of medical specializations
-const medicalSpecializations = [
-  "Cardiology",
-  "Dermatology",
-  "Endocrinology",
-  "Family Medicine",
-  "Gastroenterology",
-  "Neurology",
-  "Obstetrics & Gynecology",
-  "Oncology",
-  "Ophthalmology",
-  "Orthopedics",
-  "Pediatrics",
-  "Psychiatry",
-  "Radiology",
-  "Surgery",
-  "Urology",
-]
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { appName, docRegImg, medicalSpecializations } from "@/constants"
+import { cn } from "@/lib/utils"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ArrowLeft, ArrowRight } from "lucide-react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useForm } from "react-hook-form"
+import { RegisterSchema } from "@/utils/ZodSchema"
+import type { z } from "zod"
 
-// Days of the week
-const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-// Time slots
-const timeSlots = ["8:00 AM - 12:00 PM", "12:00 PM - 4:00 PM", "4:00 PM - 8:00 PM", "8:00 AM - 8:00 PM"]
 
-const formSchema = z.object({
-  healthCareProvider: z.string().min(1, { message: "Healthcare provider name is required" }),
-  specialization: z.string().min(1, { message: "Specialization is required" }),
-  licenseNumber: z.string().min(1, { message: "License number is required" }),
-  availability: z.array(z.string().min(1)).min(1, { message: "Please add at least one availability slot" }),
-})
-
-// Define the form type explicitly
-type FormValues = z.infer<typeof formSchema>;
+// Define the form type using the schema
+type FormValues = z.infer<typeof RegisterSchema>
 
 type DocRegistrationFormProps = React.HTMLAttributes<HTMLDivElement>
 
 const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) => {
+  const router = useRouter()
+  const [step, setStep] = useState<1 | 2>(1)
+
+  // Create the form with proper typing
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      healthCareProvider: "",
+      firstName: "",
+      lastName: "",
       specialization: "",
-      licenseNumber: "",
-      availability: ["Monday 8:00 AM - 12:00 PM"], // Initialize with a valid value
+      licenseNo: "",
+      role: "doctor", // This matches the enum default in the schema
+      phone: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
+    mode: "onChange",
   })
 
-  // Use useFieldArray to handle the dynamic array of availability slots
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "availability" as const, // Use 'as const' to make TypeScript understand this is a literal string
-  })
+  // Function to handle next step
+  const handleNextStep = async () => {
+    // Validate only the fields in the first step
+    const result = await form.trigger(["firstName", "lastName", "specialization", "licenseNo"])
+    if (result) {
+      setStep(2)
+    }
+  }
 
-  function onSubmit(values: FormValues) {
+  // Function to go back to previous step
+  const handlePrevStep = () => {
+    setStep(1)
+  }
+
+  // Properly typed onSubmit function
+  const onSubmit = (values: FormValues) => {
     console.log("Form submitted:", values)
+    // Handle form submission logic here
   }
 
   return (
+   
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-6 md:p-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-6 md:p-8">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Create an account</h1>
+                <h1 className="text-2xl font-bold">Create a Doctor Account</h1>
                 <p className="text-wrap text-muted-foreground">{`Sign up for full access to ${appName}`}</p>
+                <div className="mt-2 flex items-center gap-2">
+                  <div className={cn("h-2 w-2 rounded-full", step === 1 ? "bg-primary" : "bg-muted")} />
+                  <div className={cn("h-2 w-2 rounded-full", step === 2 ? "bg-primary" : "bg-muted")} />
+                </div>
               </div>
 
-              {/* Healthcare Provider form field */}
-              <FormField
-                control={form.control}
-                name="healthCareProvider"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Healthcare Provider</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter healthcare provider name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {/* Hidden role field - we're setting it to "doctor" by default */}
+              <input type="hidden" {...form.register("role")} value="doctor" />
 
-              {/* Specialization form field - now a Select dropdown */}
-              <FormField
-                control={form.control}
-                name="specialization"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Specialization</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select your medical specialization" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {medicalSpecializations.map((specialization) => (
-                          <SelectItem key={specialization} value={specialization}>
-                            {specialization}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>Choose your area of medical expertise</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* License Number form field */}
-              <FormField
-                control={form.control}
-                name="licenseNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>License Number</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your license number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Availability Section */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium">Availability</h3>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => append("Monday 8:00 AM - 12:00 PM")}
-                    className="h-8 gap-1"
-                  >
-                    <Plus className="h-3.5 w-3.5" />
-                    <span>Add Slot</span>
-                  </Button>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Add the days and times when you're available for appointments
-                </p>
-
-                {fields.map((field, index) => (
-                  <div key={field.id} className="flex items-center gap-2">
+              {step === 1 && (
+                <>
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* First Name */}
                     <FormField
                       control={form.control}
-                      name={`availability.${index}`}
-                      render={({ field }) => {
-                        // Split the value into day and time parts if it exists
-                        const parts = field.value ? field.value.split(" ") : ["Monday", ""]
-                        const day = parts[0] || "Monday"
-                        const timeSlot = parts.length > 1 ? parts.slice(1).join(" ") : "8:00 AM - 12:00 PM"
+                      name="firstName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>First Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="John" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                        return (
-                          <FormItem className="flex-1">
-                            <FormControl>
-                              <div className="flex items-center gap-2">
-                                <Select
-                                  onValueChange={(selectedDay) => {
-                                    // Combine the selected day with the existing time slot
-                                    field.onChange(`${selectedDay} ${timeSlot}`)
-                                  }}
-                                  value={day}
-                                >
-                                  <SelectTrigger className="w-[120px]">
-                                    <SelectValue placeholder="Day" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    {daysOfWeek.map((d) => (
-                                      <SelectItem key={d} value={d}>
-                                        {d}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-
-                                <Select
-                                  onValueChange={(selectedTime) => {
-                                    // Combine the existing day with the selected time slot
-                                    field.onChange(`${day} ${selectedTime}`)
-                                  }}
-                                  value={timeSlot}
-                                >
-                                  <SelectTrigger className="flex-1">
-                                    <SelectValue placeholder="Time slot" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    {timeSlots.map((time) => (
-                                      <SelectItem key={time} value={time}>
-                                        {time}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-
-                                {index > 0 && (
-                                  <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => remove(index)}
-                                    className="h-8 w-8 p-0 text-destructive"
-                                  >
-                                    <Trash2 className="h-4 w-4" />
-                                    <span className="sr-only">Remove</span>
-                                  </Button>
-                                )}
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )
-                      }}
+                    {/* Last Name */}
+                    <FormField
+                      control={form.control}
+                      name="lastName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Last Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Doe" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                ))}
-              </div>
 
-              <Button type="submit" className="text-md w-full">
-                <span className="flex items-center gap-2">
-                  Register
-                  <ArrowRight className="h-4 w-4" />
-                </span>
-              </Button>
+                  {/* Specialization */}
+                  <FormField
+                    control={form.control}
+                    name="specialization"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Specialization</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value || ""}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select your medical specialization" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {medicalSpecializations.map((specialization) => (
+                              <SelectItem key={specialization} value={specialization}>
+                                {specialization}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormDescription>Choose your area of medical expertise</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* License Number */}
+                  <FormField
+                    control={form.control}
+                    name="licenseNo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>License Number</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your license number" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button type="button" className="text-md w-full" onClick={handleNextStep}>
+                    <span className="flex items-center gap-2">
+                      Continue
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </Button>
+                </>
+              )}
+
+              {step === 2 && (
+                <>
+                  {/* Phone */}
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl>
+                          <Input placeholder="08012345678" {...field} />
+                        </FormControl>
+                        <FormDescription>Enter a valid Nigerian phone number</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Email */}
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="doctor@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Password */}
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input type="password" {...field} />
+                        </FormControl>
+                        <FormDescription>Must be at least 6 characters</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Confirm Password */}
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Confirm Password</FormLabel>
+                        <FormControl>
+                          <Input type="password" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="flex gap-2">
+                    <Button type="button" variant="outline" className="text-md flex-1" onClick={handlePrevStep}>
+                      <span className="flex items-center gap-2">
+                        <ArrowLeft className="h-4 w-4" />
+                        Back
+                      </span>
+                    </Button>
+                    <Button type="submit" className="text-md flex-1">
+                      <span className="flex items-center gap-2">
+                        Register
+                        <ArrowRight className="h-4 w-4" />
+                      </span>
+                    </Button>
+                  </div>
+                </>
+              )}
             </form>
           </Form>
 
           <div className="relative hidden bg-muted md:block">
             <Image
-              src={docRegImg || "/placeholder.svg"}
-              alt="Image"
+              src={docRegImg || "/placeholder.svg?height=600&width=500"}
+              alt="Doctor registration"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
               width={500}
-              height={500}
+              height={600}
               priority
             />
           </div>
