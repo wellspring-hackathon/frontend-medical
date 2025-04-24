@@ -12,6 +12,10 @@ export default function RoleSelectionPage() {
   const router = useRouter();
 
   const handleContinue = () => {
+    if (selectedRole === 'patient') {
+      router.push('/dasboard')
+      return;
+    }
     if (selectedRole) {
       router.push(`/onboarding/${selectedRole}`);
     }
