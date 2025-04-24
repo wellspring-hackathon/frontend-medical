@@ -2,9 +2,9 @@ import NextAuth from "next-auth";
 import { validateCredentials } from "@/utils/CredentialsValidate";
 import Credentials from "next-auth/providers/credentials";
 
-declare module "next-auth"{
-  interface User {
-      role: "admin" | "doctor" | "patient"
+declare module "next-auth" {
+  type User = {
+    role: "admin" | "doctor" | "patient";
   }
 }
 
@@ -24,14 +24,14 @@ export const {
   ],
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60 // 30 days
   },
   cookies: {
     sessionToken: {
       options: {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        maxAge: 30 * 24 * 60 * 60, // 30 days
+        maxAge: 30 * 24 * 60 * 60 // 30 days
       }
     }
   },
@@ -45,7 +45,7 @@ export const {
           email: token.email,
           id: token.id,
           role: token.role,
-          randomKey: token.randomKey,
+          randomKey: token.randomKey
         }
       };
     },
@@ -58,7 +58,7 @@ export const {
           id: u.id,
           role: u.role,
           email: u.email,
-          randomKey: u.randomKey,
+          randomKey: u.randomKey
         };
       }
       return token;
