@@ -3,11 +3,11 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { ArrowRightToLine } from "lucide-react";
 
-const RegisterButton = ({}) => {
+const RegisterButton = () => {
   return (
     <Button
       size="lg"
-      className="bg-primary text-primary-foreground w-full text-lg sm:w-auto"
+      className="w-full bg-primary text-lg text-primary-foreground sm:w-auto"
       variant="outline"
       asChild>
       <Link href="/register" className="flex items-center justify-center">

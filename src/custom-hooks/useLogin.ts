@@ -1,6 +1,6 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { toast } from "react-hot-toast";
 
 export const useLogin = () => {
@@ -9,7 +9,8 @@ export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
 
-  const handleSubmit = async () => {
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
     setLoading(true);
     await signIn("credentials", {
       redirect: false,
@@ -17,6 +18,7 @@ export const useLogin = () => {
       password: password
     }).then((callback) => {
       if (callback?.url === null) {
+        console.log("did not work");
         toast.error("Username or password incorrect");
         setLoading(false);
       }
@@ -25,7 +27,7 @@ export const useLogin = () => {
         push("/dashboard/");
       }
     });
-  };
+  }
 
   return {
     handleSubmit,
