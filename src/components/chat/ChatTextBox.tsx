@@ -68,7 +68,7 @@ export const ChatTextArea: React.FC<ChatTextAreaProps> = ({
   //   };
 
   return (
-    <div className="fixed bottom-0 left-0 w-full border-t border-gray-200 bg-white p-3">
+    <div className="absolute bottom-0 left-0 mb-0 mt-auto w-full border-t border-gray-200 bg-white p-3">
       {/* {showEmojiPicker && (
         <div className="absolute bottom-16 left-4 z-10">
           <EmojiPicker onSelect={handleEmojiSelect} />

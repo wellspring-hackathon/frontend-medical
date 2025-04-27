@@ -38,8 +38,8 @@ export default function UserChat() {
     setChats([...chats, newChat]);
   }
   return (
-    <div className="relative">
-      <div className="chats min-h-[80svh]">
+    <div className="">
+      <div className="chats overflow-y-auto">
         {chats.length > 0 &&
           chats.map((chat, i) => {
             const date = new Date(chat.milliseconds);
