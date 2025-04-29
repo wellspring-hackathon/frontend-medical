@@ -28,9 +28,9 @@ export default function DashboardMenu({ className }: { className: string }) {
       name: "Search"
     },
     {
-      link: "/dashboard/chat",
+      link: "/dashboard/vivy",
       icon: <BotMessageSquare />,
-      name: "Chat"
+      name: "vivy"
     },
     {
       link: "/dashboard/appointments",

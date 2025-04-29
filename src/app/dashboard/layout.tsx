@@ -1,4 +1,10 @@
 import DashboardMenu from "@/components/TempDashboard";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "WellJourney | vivy",
+  description: "An AI agent, for your wellness journey."
+};
 
 export default function DashboardLayout({
   children
