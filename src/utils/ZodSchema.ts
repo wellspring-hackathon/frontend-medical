@@ -19,7 +19,6 @@ export const SomeSchema = z
     path: ["confirmPassword"]
   });
 
-
 export const RegisterSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
@@ -33,29 +32,28 @@ export const RegisterSchema = z.object({
 });
 
 export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
-  export const FacilitySchema = z.object({
-    name: z.string().min(1, { message: "Name is required" }),
-    address: z.string().min(1, { message: "Address is required" }),
-    localGovernment: z
-      .string()
-      .min(1, { message: "Local government is required" }),
-    city: z.string().min(1, { message: "City is required" }),
-    state: z.string().min(1, { message: "State is required" }),
-    specialties: z
-      .array(z.string())
-      .nonempty({ message: "At least one specialty required" }),
-    availableBeds: z.number().int().nonnegative(),
-    equipment: z
-      .array(z.string())
-      .nonempty({ message: "At least one equipment required" }),
-  
-    // Keep contact validations as-is (they match DB)
-    contactEmail: z.string().email({ message: "Must be a valid email" }),
-    contactPhone: z
-      .string()
-      .min(1, { message: "Phone number is required" })
-      .regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/, {
-        message: "Invalid phone number format"
-      })
-  });
+export const FacilitySchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  address: z.string().min(1, { message: "Address is required" }),
+  localGovernment: z
+    .string()
+    .min(1, { message: "Local government is required" }),
+  city: z.string().min(1, { message: "City is required" }),
+  state: z.string().min(1, { message: "State is required" }),
+  specialties: z
+    .array(z.string())
+    .nonempty({ message: "At least one specialty required" }),
+  availableBeds: z.number().int().nonnegative(),
+  equipment: z
+    .array(z.string())
+    .nonempty({ message: "At least one equipment required" }),
 
+  // Keep contact validations as-is (they match DB)
+  contactEmail: z.string().email({ message: "Must be a valid email" }),
+  contactPhone: z
+    .string()
+    .min(1, { message: "Phone number is required" })
+    .regex(/^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/, {
+      message: "Invalid phone number format"
+    })
+});
