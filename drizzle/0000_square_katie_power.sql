@@ -29,7 +29,8 @@ BEGIN
   CREATE TYPE "public"."role" AS ENUM(
     'patient',
 	'doctor',
-	'admin'
+	'admin',
+	'healthcareProvider'
   );
 EXCEPTION
   WHEN duplicate_object THEN null;

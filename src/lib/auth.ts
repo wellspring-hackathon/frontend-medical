@@ -3,8 +3,11 @@ import { validateCredentials } from "@/utils/CredentialsValidate";
 import Credentials from "next-auth/providers/credentials";
 
 declare module "next-auth" {
-  type User = {
-    role: "admin" | "doctor" | "patient";
+
+  //eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  interface User {
+    role: "admin" | "doctor" | "patient" | "healthcareProvider";
+
   }
 }
 

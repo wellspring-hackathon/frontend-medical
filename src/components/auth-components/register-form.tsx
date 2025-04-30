@@ -62,6 +62,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
     router.push("/onboarding")
   }
 
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
@@ -70,6 +71,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-6 md:p-8">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Create an account</h1>
+
                 <p className="text-wrap text-muted-foreground">{`Sign up for full access to ${appName}`}</p>
                 <div className="mt-2 flex items-center gap-2">
                   <div className={cn("h-2 w-2 rounded-full", step === 1 ? "bg-primary" : "bg-muted")} />
@@ -205,6 +207,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
                   </div>
                 </>
               )}
+
             </form>
           </Form>
 
@@ -221,7 +224,9 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+
+        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+        and <a href="#">Privacy Policy</a>.
       </div>
     </div>
   )

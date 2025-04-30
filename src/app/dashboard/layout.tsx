@@ -1,3 +1,4 @@
+
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
