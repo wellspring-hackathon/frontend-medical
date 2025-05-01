@@ -8,9 +8,6 @@
   }
 }
 
-
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -38,6 +35,25 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+  }
+
+  .scrollbar-ghost::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .scrollbar-ghost::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 100vh;
+  }
+
+  .scrollbar-ghost::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .scrollbar-ghost {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
   }
 
   .dark {
@@ -68,9 +84,6 @@
   }
 }
 
-
-
-
 @layer base {
   * {
     @apply border-border;
@@ -84,4 +97,3 @@
     @apply bg-background text-foreground;
   }
 }
-

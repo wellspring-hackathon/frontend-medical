@@ -6,7 +6,7 @@ export default function ChatLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-[100svh] max-h-[100svh]">
+    <div className="h-screen max-h-[100svh]">
       <h2 className="flex min-h-[10%] items-center justify-center gap-2 p-4 text-xl font-bold">
         <BotMessageSquare size={35} color="hsl(142.1 76.2% 36.3%)" />
         vivy

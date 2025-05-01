@@ -1,45 +1,23 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { type chatMessagesInsert } from "@/db/schema/chatMessage";
 import { ChatBubble } from "./ChatBubble";
 import { ChatTextArea } from "./ChatTextBox";
-
-type ChatMessages = chatMessagesInsert & {
-  milliseconds: number;
-};
+import useSocket from "@/custom-hooks/useSockets";
+import ChatSkeleton from "./ChatSuspense";
 
 export default function UserChat() {
   const session = useSession();
+  const { chats, sendMessage } = useSocket();
   const [message, setMessage] = useState("");
-  const [chats, setChats] = useState<ChatMessages[]>([
-    {
-      consultationId: "1",
-      senderId: "e5910e8c-62f1-4f77-88a7-3bc48bbb65b2",
-      message: "hey buddy",
-      milliseconds: new Date().getTime()
-    },
-    {
-      consultationId: "1",
-      senderId: "someguy-999",
-      message: "hey dude",
-      milliseconds: new Date().getTime()
-    }
-  ]);
 
-  function sendMessage(message: string) {
-    const now = new Date();
-    const newChat = {
-      consultationId: "1",
-      senderId: "e5910e8c-62f1-4f77-88a7-3bc48bbb65b2",
-      milliseconds: now.getTime(),
-      message
-    };
-    setChats([...chats, newChat]);
+  if (session.status === "loading") {
+    return <ChatSkeleton />;
   }
+
   return (
-    <div className="">
-      <div className="chats overflow-y-auto">
+    <>
+      <div className="chats scrollbar-ghost mb-12 flex h-[72.5svh] flex-1 flex-col space-y-3 overflow-y-auto p-4">
         {chats.length > 0 &&
           chats.map((chat, i) => {
             const date = new Date(chat.milliseconds);
@@ -64,6 +42,6 @@ export default function UserChat() {
         placeholder="Type your message..."
         disabled={false}
       />
-    </div>
+    </>
   );
 }
