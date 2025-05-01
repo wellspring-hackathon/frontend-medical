@@ -1,33 +1,48 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import type React from "react"
+import { useState } from "react";
+import type React from "react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { appName, docRegImg, medicalSpecializations } from "@/constants"
-import { cn } from "@/lib/utils"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowLeft, ArrowRight } from "lucide-react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useForm } from "react-hook-form"
-import { RegisterSchema } from "@/utils/ZodSchema"
-import type { z } from "zod"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormDescription
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { appName, docRegImg, medicalSpecializations } from "@/constants";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
+import Image from "next/image";
 
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+import { useForm } from "react-hook-form";
+import { RegisterSchema } from "@/utils/ZodSchema";
+import type { z } from "zod";
 
 // Define the form type using the schema
-type FormValues = z.infer<typeof RegisterSchema>
+type FormValues = z.infer<typeof RegisterSchema>;
 
-type DocRegistrationFormProps = React.HTMLAttributes<HTMLDivElement>
+type DocRegistrationFormProps = React.HTMLAttributes<HTMLDivElement>;
 
-const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) => {
-  const router = useRouter()
-  const [step, setStep] = useState<1 | 2>(1)
+const DocRegistrationForm = ({
+  className,
+  ...props
+}: DocRegistrationFormProps) => {
+  const [step, setStep] = useState<1 | 2>(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Create the form with proper typing
   const form = useForm<FormValues>({
@@ -41,44 +56,62 @@ const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) 
       phone: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      confirmPassword: ""
     },
-    mode: "onChange",
-  })
+    mode: "onChange"
+  });
 
   // Function to handle next step
   const handleNextStep = async () => {
     // Validate only the fields in the first step
-    const result = await form.trigger(["firstName", "lastName", "specialization", "licenseNo"])
+    const result = await form.trigger([
+      "firstName",
+      "lastName",
+      "specialization",
+      "licenseNo"
+    ]);
     if (result) {
-      setStep(2)
+      setStep(2);
     }
-  }
+  };
 
   // Function to go back to previous step
   const handlePrevStep = () => {
-    setStep(1)
-  }
+    setStep(1);
+  };
 
   // Properly typed onSubmit function
   const onSubmit = (values: FormValues) => {
-    console.log("Form submitted:", values)
+    setIsLoading(true);
+    console.log("Form submitted:", values);
+    setIsLoading(false);
     // Handle form submission logic here
-  }
+  };
 
   return (
-   
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-6 md:p-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6 p-6 md:p-8">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Create a Doctor Account</h1>
                 <p className="text-wrap text-muted-foreground">{`Sign up for full access to ${appName}`}</p>
                 <div className="mt-2 flex items-center gap-2">
-                  <div className={cn("h-2 w-2 rounded-full", step === 1 ? "bg-primary" : "bg-muted")} />
-                  <div className={cn("h-2 w-2 rounded-full", step === 2 ? "bg-primary" : "bg-muted")} />
+                  <div
+                    className={cn(
+                      "h-2 w-2 rounded-full",
+                      step === 1 ? "bg-primary" : "bg-muted"
+                    )}
+                  />
+                  <div
+                    className={cn(
+                      "h-2 w-2 rounded-full",
+                      step === 2 ? "bg-primary" : "bg-muted"
+                    )}
+                  />
                 </div>
               </div>
 
@@ -126,7 +159,9 @@ const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) 
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Specialization</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value || ""}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value || ""}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Select your medical specialization" />
@@ -134,13 +169,17 @@ const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) 
                           </FormControl>
                           <SelectContent>
                             {medicalSpecializations.map((specialization) => (
-                              <SelectItem key={specialization} value={specialization}>
+                              <SelectItem
+                                key={specialization}
+                                value={specialization}>
                                 {specialization}
                               </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
-                        <FormDescription>Choose your area of medical expertise</FormDescription>
+                        <FormDescription>
+                          Choose your area of medical expertise
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -154,14 +193,20 @@ const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) 
                       <FormItem>
                         <FormLabel>License Number</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your license number" {...field} />
+                          <Input
+                            placeholder="Enter your license number"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
 
-                  <Button type="button" className="text-md w-full" onClick={handleNextStep}>
+                  <Button
+                    type="button"
+                    className="text-md w-full"
+                    onClick={handleNextStep}>
                     <span className="flex items-center gap-2">
                       Continue
                       <ArrowRight className="h-4 w-4" />
@@ -182,7 +227,9 @@ const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) 
                         <FormControl>
                           <Input placeholder="08012345678" {...field} />
                         </FormControl>
-                        <FormDescription>Enter a valid Nigerian phone number</FormDescription>
+                        <FormDescription>
+                          Enter a valid Nigerian phone number
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -196,7 +243,11 @@ const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) 
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="doctor@example.com" {...field} />
+                          <Input
+                            type="email"
+                            placeholder="doctor@example.com"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -213,7 +264,9 @@ const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) 
                         <FormControl>
                           <Input type="password" {...field} />
                         </FormControl>
-                        <FormDescription>Must be at least 6 characters</FormDescription>
+                        <FormDescription>
+                          Must be at least 6 characters
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -235,17 +288,25 @@ const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) 
                   />
 
                   <div className="flex gap-2">
-                    <Button type="button" variant="outline" className="text-md flex-1" onClick={handlePrevStep}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="text-md flex-1"
+                      onClick={handlePrevStep}>
                       <span className="flex items-center gap-2">
                         <ArrowLeft className="h-4 w-4" />
                         Back
                       </span>
                     </Button>
                     <Button type="submit" className="text-md flex-1">
-                      <span className="flex items-center gap-2">
-                        Register
-                        <ArrowRight className="h-4 w-4" />
-                      </span>
+                      {isLoading ? (
+                        <Loader2 className="animate-spin" />
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          Register
+                          <ArrowRight className="h-4 w-4" />
+                        </span>
+                      )}
                     </Button>
                   </div>
                 </>
@@ -266,10 +327,11 @@ const DocRegistrationForm = ({ className, ...props }: DocRegistrationFormProps) 
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+        and <a href="#">Privacy Policy</a>.
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DocRegistrationForm
+export default DocRegistrationForm;

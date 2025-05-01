@@ -12,8 +12,8 @@ export default function RoleSelectionPage() {
   const router = useRouter();
 
   const handleContinue = () => {
-    if (selectedRole === 'patient') {
-      router.push('/dasboard')
+    if (selectedRole === "patient") {
+      router.push("/dashboard");
       return;
     }
     if (selectedRole) {
@@ -29,9 +29,9 @@ export default function RoleSelectionPage() {
           <h1 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             {`Welcome to ${appName}`}
           </h1>
-          <p className="text-muted-foreground text-lg">
-            Tell us how you'll be using our platform so we can customize your
-            experience
+          <p className="text-lg text-muted-foreground">
+            Tell us how you&apos;ll be using our platform so we can customize
+            your experience
           </p>
         </div>
 
@@ -43,7 +43,9 @@ export default function RoleSelectionPage() {
             title="I'm a Patient"
             description="Looking for healthcare services, booking appointments, or accessing medical resources"
             isSelected={selectedRole === "patient"}
-            onClick={() => setSelectedRole("patient")}
+            onClick={() => {
+              setSelectedRole("patient");
+            }}
             color="blue"
           />
 
@@ -53,7 +55,9 @@ export default function RoleSelectionPage() {
             title="I'm a Doctor"
             description="A healthcare professional looking to offer services on this platform"
             isSelected={selectedRole === "doctor"}
-            onClick={() => setSelectedRole("doctor")}
+            onClick={() => {
+              setSelectedRole("doctor");
+            }}
             color="green"
           />
 
@@ -63,7 +67,9 @@ export default function RoleSelectionPage() {
             title="I'm a Healthcare Facility"
             description="A hospital, clinic, or healthcare organization connecting with patients"
             isSelected={selectedRole === "facility"}
-            onClick={() => setSelectedRole("facility")}
+            onClick={() => {
+              setSelectedRole("facility");
+            }}
             color="purple"
           />
         </div>

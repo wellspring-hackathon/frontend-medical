@@ -1,24 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { appName, facilityRegImg } from "@/constants"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowLeft, ArrowRight } from "lucide-react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import type { z } from "zod"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { FacilitySchema } from "@/utils/ZodSchema"
-import { cn } from "@/lib/utils"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormDescription
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { appName, facilityRegImg } from "@/constants";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { FacilitySchema } from "@/utils/ZodSchema";
+import { cn } from "@/lib/utils";
 
 // Define the form type using the schema
-type FormValues = z.infer<typeof FacilitySchema>
+type FormValues = z.infer<typeof FacilitySchema>;
 
 // Lists of specialties and equipment for the dropdowns
 const specialtiesList = [
@@ -32,7 +46,22 @@ const specialtiesList = [
   "Dermatology",
   "Ophthalmology",
   "Psychiatry",
-]
+  "Urology",
+  "Nephrology",
+  "Gastroenterology",
+  "Endocrinology",
+  "Hematology",
+  "Rheumatology",
+  "Pulmonology",
+  "Allergy and Immunology",
+  "Infectious Diseases",
+  "Emergency Medicine",
+  "Family Medicine",
+  "Internal Medicine",
+  "Geriatrics",
+  "Pathology",
+  "Radiology"
+];
 
 const equipmentList = [
   "X-Ray Machine",
@@ -45,11 +74,26 @@ const equipmentList = [
   "Anesthesia Machine",
   "Surgical Lights",
   "Patient Monitors",
-]
+  "Infusion Pump",
+  "Autoclave",
+  "Incubator",
+  "Dialysis Machine",
+  "Suction Machine",
+  "Laryngoscope",
+  "Otoscope",
+  "Oxygen Concentrator",
+  "Nebulizer",
+  "Thermometer",
+  "Glucometer",
+  "Blood Pressure Monitor",
+  "Stethoscope",
+  "Wheelchair",
+  "Hospital Bed"
+];
 
 const FacilityRegistrationForm = () => {
-  const router = useRouter()
-  const [step, setStep] = useState<1 | 2>(1)
+  const router = useRouter();
+  const [step, setStep] = useState<1 | 2>(1);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FacilitySchema),
@@ -63,29 +107,35 @@ const FacilityRegistrationForm = () => {
       availableBeds: 0, // Numeric field
       equipment: [], // Array field
       contactEmail: "",
-      contactPhone: "",
+      contactPhone: ""
     },
-    mode: "onChange",
-  })
+    mode: "onChange"
+  });
 
   // Function to handle next step
   const handleNextStep = async () => {
     // Validate only the fields in the first step
-    const result = await form.trigger(["name", "address", "localGovernment", "city", "state"])
+    const result = await form.trigger([
+      "name",
+      "address",
+      "localGovernment",
+      "city",
+      "state"
+    ]);
     if (result) {
-      setStep(2)
+      setStep(2);
     }
-  }
+  };
 
   // Function to go back to previous step
   const handlePrevStep = () => {
-    setStep(1)
-  }
+    setStep(1);
+  };
 
   // Form submission handler
   function onSubmit(values: FormValues) {
-    console.log(values)
-    router.push("/onboarding")
+    console.log(values);
+    router.push("/onboarding");
   }
 
   return (
@@ -93,13 +143,27 @@ const FacilityRegistrationForm = () => {
       <Card className="h-full w-full overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-6 md:p-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6 p-6 md:p-8">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Register Healthcare Facility</h1>
+                <h1 className="text-2xl font-bold">
+                  Register Healthcare Facility
+                </h1>
                 <p className="text-wrap text-muted-foreground">{`Provide your facility details to join ${appName}`}</p>
                 <div className="mt-2 flex items-center gap-2">
-                  <div className={cn("h-2 w-2 rounded-full", step === 1 ? "bg-primary" : "bg-muted")} />
-                  <div className={cn("h-2 w-2 rounded-full", step === 2 ? "bg-primary" : "bg-muted")} />
+                  <div
+                    className={cn(
+                      "h-2 w-2 rounded-full",
+                      step === 1 ? "bg-primary" : "bg-muted"
+                    )}
+                  />
+                  <div
+                    className={cn(
+                      "h-2 w-2 rounded-full",
+                      step === 2 ? "bg-primary" : "bg-muted"
+                    )}
+                  />
                 </div>
               </div>
 
@@ -183,7 +247,10 @@ const FacilityRegistrationForm = () => {
                     )}
                   />
 
-                  <Button type="button" className="text-md w-full" onClick={handleNextStep}>
+                  <Button
+                    type="button"
+                    className="text-md w-full"
+                    onClick={handleNextStep}>
                     <span className="flex items-center gap-2">
                       Continue
                       <ArrowRight className="h-4 w-4" />
@@ -203,7 +270,11 @@ const FacilityRegistrationForm = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Specialties</FormLabel>
-                        <Select onValueChange={(value) => field.onChange([...field.value, value])} value="">
+                        <Select
+                          onValueChange={(value) => {
+                            field.onChange([...field.value, value]);
+                          }}
+                          value="">
                           <FormControl>
                             <div className="flex gap-2">
                               <SelectTrigger className="flex-1">
@@ -216,28 +287,34 @@ const FacilityRegistrationForm = () => {
                               <SelectItem
                                 key={specialty}
                                 value={specialty.toLowerCase()}
-                                disabled={field.value.includes(specialty.toLowerCase())}
-                              >
+                                disabled={field.value.includes(
+                                  specialty.toLowerCase()
+                                )}>
                                 {specialty}
                               </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
-                        <div className="flex flex-wrap gap-2 mt-2">
+                        <div className="mt-2 flex flex-wrap gap-2">
                           {field.value?.map((item) => (
                             <Badge key={item} variant="secondary">
                               {item}
                               <button
                                 type="button"
-                                onClick={() => field.onChange(field.value.filter((i) => i !== item))}
-                                className="ml-2 hover:text-destructive"
-                              >
+                                onClick={() => {
+                                  field.onChange(
+                                    field.value.filter((i) => i !== item)
+                                  );
+                                }}
+                                className="ml-2 hover:text-destructive">
                                 ×
                               </button>
                             </Badge>
                           ))}
                         </div>
-                        <FormDescription>Select all specialties offered at your facility</FormDescription>
+                        <FormDescription>
+                          Select all specialties offered at your facility
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -255,10 +332,16 @@ const FacilityRegistrationForm = () => {
                             type="number"
                             placeholder="50"
                             {...field}
-                            onChange={(e) => field.onChange(Number.parseInt(e.target.value) || 0)}
+                            onChange={(e) => {
+                              field.onChange(
+                                Number.parseInt(e.target.value) || 0
+                              );
+                            }}
                           />
                         </FormControl>
-                        <FormDescription>Total number of beds available for patients</FormDescription>
+                        <FormDescription>
+                          Total number of beds available for patients
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -271,7 +354,11 @@ const FacilityRegistrationForm = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Equipment</FormLabel>
-                        <Select onValueChange={(value) => field.onChange([...field.value, value])} value="">
+                        <Select
+                          onValueChange={(value) => {
+                            field.onChange([...field.value, value]);
+                          }}
+                          value="">
                           <FormControl>
                             <div className="flex gap-2">
                               <SelectTrigger className="flex-1">
@@ -283,29 +370,38 @@ const FacilityRegistrationForm = () => {
                             {equipmentList.map((equipment) => (
                               <SelectItem
                                 key={equipment}
-                                value={equipment.toLowerCase().replace(/\s+/g, "_")}
-                                disabled={field.value.includes(equipment.toLowerCase().replace(/\s+/g, "_"))}
-                              >
+                                value={equipment
+                                  .toLowerCase()
+                                  .replace(/\s+/g, "_")}
+                                disabled={field.value.includes(
+                                  equipment.toLowerCase().replace(/\s+/g, "_")
+                                )}>
                                 {equipment}
                               </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
-                        <div className="flex flex-wrap gap-2 mt-2">
+                        <div className="mt-2 flex flex-wrap gap-2">
                           {field.value?.map((item) => (
                             <Badge key={item} variant="secondary">
                               {item.replace(/_/g, " ")}
                               <button
                                 type="button"
-                                onClick={() => field.onChange(field.value.filter((i) => i !== item))}
-                                className="ml-2 hover:text-destructive"
-                              >
+                                onClick={() => {
+                                  field.onChange(
+                                    field.value.filter((i) => i !== item)
+                                  );
+                                }}
+                                className="ml-2 hover:text-destructive">
                                 ×
                               </button>
                             </Badge>
                           ))}
                         </div>
-                        <FormDescription>Select all medical equipment available at your facility</FormDescription>
+                        <FormDescription>
+                          Select all medical equipment available at your
+                          facility
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -320,7 +416,11 @@ const FacilityRegistrationForm = () => {
                         <FormItem>
                           <FormLabel>Contact Email</FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="contact@hospital.com" {...field} />
+                            <Input
+                              type="email"
+                              placeholder="contact@hospital.com"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -343,7 +443,11 @@ const FacilityRegistrationForm = () => {
                   </div>
 
                   <div className="flex gap-2">
-                    <Button type="button" variant="outline" className="text-md flex-1" onClick={handlePrevStep}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="text-md flex-1"
+                      onClick={handlePrevStep}>
                       <span className="flex items-center gap-2">
                         <ArrowLeft className="h-4 w-4" />
                         Back
@@ -374,10 +478,11 @@ const FacilityRegistrationForm = () => {
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+        and <a href="#">Privacy Policy</a>.
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FacilityRegistrationForm
+export default FacilityRegistrationForm;

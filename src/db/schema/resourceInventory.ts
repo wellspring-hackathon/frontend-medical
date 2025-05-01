@@ -17,7 +17,7 @@ export const resourceInventory = pgTable("resource_inventory", {
     }),
   resourceType: varchar("resource_type", { length: 100 }).notNull(),
   totalQuantity: integer("total_quantity").notNull(),
-  availableQuantity: integer("available_ quantity").notNull(),
+  availableQuantity: integer("available_quantity").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull()
 });
