@@ -6,11 +6,11 @@ type Equipment = {
   name: string;
   status: string;
   lastMaintenance: string;
-}
+};
 
 type EquipmentStatusProps = {
   equipment: Equipment[];
-}
+};
 
 export function EquipmentStatus({ equipment }: EquipmentStatusProps) {
   const formatDate = (dateString: string) => {

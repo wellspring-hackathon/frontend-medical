@@ -222,7 +222,11 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" onClick={() => { setBookingDialogOpen(false); }}>
+              <Button
+                type="submit"
+                onClick={() => {
+                  setBookingDialogOpen(false);
+                }}>
                 Confirm Booking
               </Button>
             </DialogFooter>

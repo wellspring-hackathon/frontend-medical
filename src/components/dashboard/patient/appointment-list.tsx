@@ -9,11 +9,11 @@ type Appointment = {
   date: string;
   hospitalName: string;
   status: string;
-}
+};
 
 type AppointmentListProps = {
   appointments: Appointment[];
-}
+};
 
 export function AppointmentList({ appointments }: AppointmentListProps) {
   const formatDate = (dateString: string) => {

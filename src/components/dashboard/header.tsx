@@ -21,7 +21,7 @@ type HeaderProps = {
     email: string;
     role: string;
   };
-}
+};
 
 export function DashboardHeader({ user }: HeaderProps) {
   const getInitials = (firstName: string, lastName: string) => {

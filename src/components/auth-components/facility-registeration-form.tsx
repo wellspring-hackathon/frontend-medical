@@ -271,9 +271,9 @@ const FacilityRegistrationForm = () => {
                       <FormItem>
                         <FormLabel>Specialties</FormLabel>
                         <Select
-                          onValueChange={(value) =>
-                            { field.onChange([...field.value, value]); }
-                          }
+                          onValueChange={(value) => {
+                            field.onChange([...field.value, value]);
+                          }}
                           value="">
                           <FormControl>
                             <div className="flex gap-2">
@@ -301,11 +301,11 @@ const FacilityRegistrationForm = () => {
                               {item}
                               <button
                                 type="button"
-                                onClick={() =>
-                                  { field.onChange(
+                                onClick={() => {
+                                  field.onChange(
                                     field.value.filter((i) => i !== item)
-                                  ); }
-                                }
+                                  );
+                                }}
                                 className="ml-2 hover:text-destructive">
                                 ×
                               </button>
@@ -332,11 +332,11 @@ const FacilityRegistrationForm = () => {
                             type="number"
                             placeholder="50"
                             {...field}
-                            onChange={(e) =>
-                              { field.onChange(
+                            onChange={(e) => {
+                              field.onChange(
                                 Number.parseInt(e.target.value) || 0
-                              ); }
-                            }
+                              );
+                            }}
                           />
                         </FormControl>
                         <FormDescription>
@@ -355,9 +355,9 @@ const FacilityRegistrationForm = () => {
                       <FormItem>
                         <FormLabel>Equipment</FormLabel>
                         <Select
-                          onValueChange={(value) =>
-                            { field.onChange([...field.value, value]); }
-                          }
+                          onValueChange={(value) => {
+                            field.onChange([...field.value, value]);
+                          }}
                           value="">
                           <FormControl>
                             <div className="flex gap-2">
@@ -387,11 +387,11 @@ const FacilityRegistrationForm = () => {
                               {item.replace(/_/g, " ")}
                               <button
                                 type="button"
-                                onClick={() =>
-                                  { field.onChange(
+                                onClick={() => {
+                                  field.onChange(
                                     field.value.filter((i) => i !== item)
-                                  ); }
-                                }
+                                  );
+                                }}
                                 className="ml-2 hover:text-destructive">
                                 ×
                               </button>

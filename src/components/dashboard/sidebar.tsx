@@ -1,5 +1,5 @@
 "use client";
-
+import LogOutButton from "../auth-components/logOutButton";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -10,7 +10,6 @@ import {
   Users,
   Building,
   Settings,
-  LogOut,
   Stethoscope,
   Search,
   FileText,
@@ -19,7 +18,8 @@ import {
   Activity,
   ClipboardList,
   BedDouble,
-  HeartPulse
+  HeartPulse,
+  BotMessageSquare
 } from "lucide-react";
 import { appName } from "@/constants";
 
@@ -27,7 +27,7 @@ type SidebarProps = {
   user: {
     role: string;
   };
-}
+};
 
 export function DashboardSidebar({ user }: SidebarProps) {
   const pathname = usePathname();
@@ -63,15 +63,20 @@ export function DashboardSidebar({ user }: SidebarProps) {
           icon: <Pill className="h-5 w-5" />
         },
         {
-          title: "My Profile",
-          href: `/dashboard/profile`,
-          icon: <User className="h-5 w-5" />
-        },
-        {
-          title: "Settings",
-          href: `/dashboard/settings`,
-          icon: <Settings className="h-5 w-5" />
+          title: "vivy",
+          href: "/dashboard/vivy",
+          icon: <BotMessageSquare color="hsl(142.1 76.2% 36.3%)" />
         }
+        // {
+        //   title: "My Profile",
+        //   href: `/dashboard/profile`,
+        //   icon: <User className="h-5 w-5" />
+        // },
+        // {
+        //   title: "Settings",
+        //   href: `/dashboard/settings`,
+        //   icon: <Settings className="h-5 w-5" />
+        // }
       ];
     } else if (user.role === "doctor") {
       return [
@@ -101,15 +106,20 @@ export function DashboardSidebar({ user }: SidebarProps) {
           icon: <FileText className="h-5 w-5" />
         },
         {
-          title: "My Profile",
-          href: `/dashboard/profile`,
-          icon: <User className="h-5 w-5" />
-        },
-        {
-          title: "Settings",
-          href: `/dashboard/settings`,
-          icon: <Settings className="h-5 w-5" />
+          title: "vivy",
+          href: "/dashboard/vivy",
+          icon: <BotMessageSquare color="hsl(142.1 76.2% 36.3%)" />
         }
+        // {
+        //   title: "My Profile",
+        //   href: `/dashboard/profile`,
+        //   icon: <User className="h-5 w-5" />
+        // },
+        // {
+        //   title: "Settings",
+        //   href: `/dashboard/settings`,
+        //   icon: <Settings className="h-5 w-5" />
+        // }
       ];
     } else if (user.role === "provider") {
       return [
@@ -144,15 +154,20 @@ export function DashboardSidebar({ user }: SidebarProps) {
           icon: <Calendar className="h-5 w-5" />
         },
         {
-          title: "Profile",
-          href: `/dashboard/profile`,
-          icon: <User className="h-5 w-5" />
-        },
-        {
-          title: "Settings",
-          href: `/dashboard/settings`,
-          icon: <Settings className="h-5 w-5" />
+          title: "vivy",
+          href: "/dashboard/vivy",
+          icon: <BotMessageSquare color="hsl(142.1 76.2% 36.3%)" />
         }
+        // {
+        //   title: "Profile",
+        //   href: `/dashboard/profile`,
+        //   icon: <User className="h-5 w-5" />
+        // },
+        // {
+        //   title: "Settings",
+        //   href: `/dashboard/settings`,
+        //   icon: <Settings className="h-5 w-5" />
+        // }
       ];
     } else if (user.role === "admin") {
       return [
@@ -212,7 +227,7 @@ export function DashboardSidebar({ user }: SidebarProps) {
   const navItems = getNavItems();
 
   return (
-    <div className="flex h-screen w-64 flex-col border-r bg-background">
+    <div className="flex h-[90svh] w-64 flex-col border-r bg-background">
       <div className="flex h-14 items-center border-b px-4">
         <Link href="/dashboard" className="flex items-center">
           <HeartPulse className="mr-1 text-primary" />
@@ -255,13 +270,9 @@ export function DashboardSidebar({ user }: SidebarProps) {
           ))}
         </nav>
       </div>
-      <div className="mt-auto border-t p-4">
-        <Link
-          href="/logout"
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-foreground">
-          <LogOut className="h-5 w-5" />
-          Sign Out
-        </Link>
+
+      <div className="flex items-center justify-center">
+        <LogOutButton className="w-4/5" />
       </div>
     </div>
   );

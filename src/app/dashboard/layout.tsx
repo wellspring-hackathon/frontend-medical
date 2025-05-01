@@ -1,4 +1,3 @@
-
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
@@ -33,7 +32,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <DashboardHeader user={user} />
       <div className="flex flex-1">
         <DashboardSidebar user={user} />
-        <main className="flex-1 overflow-y-auto bg-background">{children}</main>
+        <main className="flex h-[90svh] flex-1 overflow-y-auto bg-background p-4">
+          {children}
+        </main>
       </div>
     </div>
   );

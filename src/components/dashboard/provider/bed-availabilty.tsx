@@ -4,11 +4,11 @@ type Department = {
   name: string;
   beds: number;
   occupied: number;
-}
+};
 
 type BedAvailabilityProps = {
   departments: Department[];
-}
+};
 
 export function BedAvailability({ departments }: BedAvailabilityProps) {
   return (

@@ -7,11 +7,11 @@ type Patient = {
   age: number;
   lastVisit: string;
   condition: string;
-}
+};
 
 type PatientListProps = {
   patients: Patient[];
-}
+};
 
 export function PatientList({ patients }: PatientListProps) {
   return (

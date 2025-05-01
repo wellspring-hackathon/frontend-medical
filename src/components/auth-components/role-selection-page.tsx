@@ -43,7 +43,9 @@ export default function RoleSelectionPage() {
             title="I'm a Patient"
             description="Looking for healthcare services, booking appointments, or accessing medical resources"
             isSelected={selectedRole === "patient"}
-            onClick={() => { setSelectedRole("patient"); }}
+            onClick={() => {
+              setSelectedRole("patient");
+            }}
             color="blue"
           />
 
@@ -53,7 +55,9 @@ export default function RoleSelectionPage() {
             title="I'm a Doctor"
             description="A healthcare professional looking to offer services on this platform"
             isSelected={selectedRole === "doctor"}
-            onClick={() => { setSelectedRole("doctor"); }}
+            onClick={() => {
+              setSelectedRole("doctor");
+            }}
             color="green"
           />
 
@@ -63,7 +67,9 @@ export default function RoleSelectionPage() {
             title="I'm a Healthcare Facility"
             description="A hospital, clinic, or healthcare organization connecting with patients"
             isSelected={selectedRole === "facility"}
-            onClick={() => { setSelectedRole("facility"); }}
+            onClick={() => {
+              setSelectedRole("facility");
+            }}
             color="purple"
           />
         </div>

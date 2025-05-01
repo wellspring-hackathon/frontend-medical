@@ -73,7 +73,7 @@ type UpdateFacilityFormProps = {
     description?: string;
   };
   onSubmit: (data: FacilityFormValues) => void;
-}
+};
 
 export function UpdateFacilityForm({
   initialData,
@@ -287,7 +287,9 @@ export function UpdateFacilityForm({
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => { setOpen(false); }}>
+                onClick={() => {
+                  setOpen(false);
+                }}>
                 Cancel
               </Button>
               <Button type="submit">Save Changes</Button>

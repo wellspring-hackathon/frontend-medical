@@ -14,7 +14,6 @@ export const roleEnum = pgEnum("role", [
   "doctor",
   "admin",
   "healthcare-provider"
-
 ]);
 
 export const user = pgTable("user", {

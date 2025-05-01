@@ -9,11 +9,11 @@ type Appointment = {
   date: string;
   hospitalName: string;
   status: string;
-}
+};
 
 type UpcomingAppointmentProps = {
   appointment: Appointment;
-}
+};
 
 export function UpcomingAppointment({ appointment }: UpcomingAppointmentProps) {
   const formatDate = (dateString: string) => {

@@ -5,7 +5,7 @@ import { DoctorCard } from "./doctor-card";
 
 type DoctorsListProps = {
   doctors: Doctor[];
-}
+};
 
 const DoctorsList: React.FC<DoctorsListProps> = ({ doctors }) => {
   return (

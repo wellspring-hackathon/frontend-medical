@@ -8,11 +8,11 @@ type Doctor = {
   specialty: string;
   patients: number;
   availability: string;
-}
+};
 
 type ProviderDoctorListProps = {
   doctors: Doctor[];
-}
+};
 
 export function ProviderDoctorList({ doctors }: ProviderDoctorListProps) {
   return (

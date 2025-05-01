@@ -24,3 +24,5 @@ export {
   teleconsultation,
   teleconsultationRelations
 } from "@/db/schema/teleconsultation";
+export { vivyChats, vivyChatsRelations } from "./vivyChats";
+export { vivyMessages, vivyMessagesRelations } from "./vivyMessages";

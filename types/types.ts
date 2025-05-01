@@ -25,7 +25,7 @@ export type Doctor = {
     state: string;
     contactPhone: string;
   };
-}
+};
 
 export type HealthcareProvider = {
   id: string;
@@ -43,4 +43,4 @@ export type HealthcareProvider = {
   createdAt: string;
   updatedAt: string;
   doctors: Doctor[]; // Added for convenience
-}
+};

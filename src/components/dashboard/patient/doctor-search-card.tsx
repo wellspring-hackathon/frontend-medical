@@ -9,7 +9,7 @@ type DoctorSearchCardProps = {
   hospital: string;
   rating: number;
   image: string;
-}
+};
 
 export function DoctorSearchCard({
   name,

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { BotMessageSquare } from "lucide-react";
 
 // type Message = {
 //   id: string;
@@ -23,8 +24,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   isUser,
   timestamp,
   showTimestamp = true,
-  userAvatar,
-  otherAvatar
+  userAvatar
 }) => {
   //   const statusColors = {
   //     sending: 'text-gray-400',
@@ -45,15 +45,9 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-4`}>
       {/* Other person's avatar (left side) */}
-      {!isUser && otherAvatar && (
+      {!isUser && (
         <div className="mr-2 flex-shrink-0">
-          <Image
-            width={50}
-            height={50}
-            src={otherAvatar}
-            alt="Other user"
-            className="h-8 w-8 rounded-full object-cover"
-          />
+          <BotMessageSquare size={35} color="hsl(142.1 76.2% 36.3%)" />
         </div>
       )}
 
