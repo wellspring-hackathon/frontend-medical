@@ -1,20 +1,5 @@
-import {
-  pgTable,
-  uuid,
-  varchar,
-  text,
-  pgEnum,
-  timestamp
-} from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, text, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-
-// Create role enum
-export const roleEnum = pgEnum("role", [
-  "patient",
-  "doctor",
-  "admin",
-  "healthcare-provider"
-]);
 
 export const user = pgTable("user", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -23,7 +8,7 @@ export const user = pgTable("user", {
   password: text("password").notNull(),
   firstName: varchar("first_name", { length: 100 }).notNull(),
   lastName: varchar("last_name", { length: 100 }).notNull(),
-  role: roleEnum("role").notNull().default("patient"),
+  role: varchar("role").notNull().default("patient"),
   specialization: varchar("specialization", { length: 255 }),
   licenseNo: varchar("license_no", { length: 100 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),

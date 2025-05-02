@@ -1,11 +1,6 @@
-import { pgTable, timestamp, uuid, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { appointment } from "./appointment";
-
-export const teleconsultationStatusEnum = pgEnum("telecommunication_status", [
-  "active",
-  "closed"
-]);
 
 export const teleconsultation = pgTable("consultation-wellspring", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -15,7 +10,7 @@ export const teleconsultation = pgTable("consultation-wellspring", {
       onDelete: "cascade"
     }),
   //TODO: whether or not to add messages column
-  status: teleconsultationStatusEnum("status").default("closed").notNull(),
+  status: varchar("status").default("closed").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull()
 });

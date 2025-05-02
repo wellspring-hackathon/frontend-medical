@@ -1,5 +1,5 @@
 {
-  "id": "8740f6cd-a78a-4432-9783-d1cab8b006a7",
+  "id": "e3a99713-b90d-4224-ac6e-be6d91a28bb6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -53,8 +53,7 @@
         },
         "status": {
           "name": "status",
-          "type": "appointment_status",
-          "typeSchema": "public",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true,
           "default": "'pending'"
@@ -67,8 +66,7 @@
         },
         "consultation_type": {
           "name": "consultation_type",
-          "type": "consultation_type",
-          "typeSchema": "public",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true,
           "default": "'in-person'"
@@ -731,8 +729,7 @@
         },
         "type": {
           "name": "type",
-          "type": "notification_type",
-          "typeSchema": "public",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true,
           "default": "'appointment_reminder'"
@@ -780,6 +777,109 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.patient_schema": {
+      "name": "patient_schema",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "local_government": {
+          "name": "local_government",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "city": {
+          "name": "city",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Edo'"
+        },
+        "contact_phone": {
+          "name": "contact_phone",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "contact_email": {
+          "name": "contact_email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sickness": {
+          "name": "sickness",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "patient_schema_created_by_user_id_fk": {
+          "name": "patient_schema_created_by_user_id_fk",
+          "tableFrom": "patient_schema",
+          "tableTo": "user",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.resource_inventory": {
       "name": "resource_inventory",
       "schema": "",
@@ -809,8 +909,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "available_ quantity": {
-          "name": "available_ quantity",
+        "available_quantity": {
+          "name": "available_quantity",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -871,8 +971,7 @@
         },
         "status": {
           "name": "status",
-          "type": "telecommunication_status",
-          "typeSchema": "public",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true,
           "default": "'closed'"
@@ -957,8 +1056,7 @@
         },
         "role": {
           "name": "role",
-          "type": "role",
-          "typeSchema": "public",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true,
           "default": "'patient'"
@@ -1002,6 +1100,124 @@
           ]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.vivy_chats": {
+      "name": "vivy_chats",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "vivy_chats_user_id_user_id_fk": {
+          "name": "vivy_chats_user_id_user_id_fk",
+          "tableFrom": "vivy_chats",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.vivy_messages": {
+      "name": "vivy_messages",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "vivy_messages_chat_id_vivy_chats_id_fk": {
+          "name": "vivy_messages_chat_id_vivy_chats_id_fk",
+          "tableFrom": "vivy_messages",
+          "tableTo": "vivy_chats",
+          "columnsFrom": [
+            "chat_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

@@ -1,25 +1,14 @@
 import {
   pgTable,
-  pgEnum,
   text,
   timestamp,
   uuid,
-  date
+  date,
+  varchar
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { user } from "./user";
 import { healthcareProviders } from "./healthcare";
-
-export const appointmentStatusEnum = pgEnum("appointment_status", [
-  "pending",
-  "confirmed",
-  "cancelled",
-  "completed"
-]);
-export const consultationTypeEnum = pgEnum("consultation_type", [
-  "in-person",
-  "teleconsultation"
-]);
 
 export const appointment = pgTable("appointment-table", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -41,11 +30,9 @@ export const appointment = pgTable("appointment-table", {
   date: date("date").notNull(),
   startTime: timestamp("start_time").notNull(),
   endTime: timestamp("end_time").notNull(),
-  status: appointmentStatusEnum("status").default("pending").notNull(),
+  status: varchar("status").default("pending").notNull(),
   notes: text("notes"),
-  consultationType: consultationTypeEnum("consultation_type")
-    .default("in-person")
-    .notNull(),
+  consultationType: varchar("consultation_type").default("in-person").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull()
 });

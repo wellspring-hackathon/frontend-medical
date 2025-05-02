@@ -1,65 +1,4 @@
-DO $$ 
-BEGIN
-  CREATE TYPE "public"."appointment_status" AS ENUM(
-    'pending',
-    'confirmed',
-    'cancelled',
-    'completed'
-  );
-EXCEPTION
-  WHEN duplicate_object THEN null;
-END $$;
-
---> statement-breakpoint
-
-DO $$ 
-BEGIN
-  CREATE TYPE "public"."telecommunication_status" AS ENUM(
-    'active',
-  	'closed'
-  );
-EXCEPTION
-  WHEN duplicate_object THEN null;
-END $$;
-
---> statement-breakpoint
-
-DO $$ 
-BEGIN
-  CREATE TYPE "public"."role" AS ENUM(
-    'patient',
-	'doctor',
-	'admin',
-	'healthcareProvider'
-  );
-EXCEPTION
-  WHEN duplicate_object THEN null;
-END $$;
-
---> statement-breakpoint
-
-DO $$ 
-BEGIN
-  CREATE TYPE "public"."consultation_type" AS ENUM(
-    'in-person',
-    'teleconsultation'
-  );
-EXCEPTION
-  WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ 
-BEGIN
-  CREATE TYPE "public"."notification_type" AS ENUM(
-    'appointment_reminder',
-    'booking_confirmation'
-  );
-EXCEPTION
-  WHEN duplicate_object THEN null;
-END $$;
-
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "appointment-table" (
+CREATE TABLE "appointment-table" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"patient_id" uuid NOT NULL,
 	"doctor_id" uuid NOT NULL,
@@ -67,14 +6,14 @@ CREATE TABLE IF NOT EXISTS "appointment-table" (
 	"date" date NOT NULL,
 	"start_time" timestamp NOT NULL,
 	"end_time" timestamp NOT NULL,
-	"status" "appointment_status" DEFAULT 'pending' NOT NULL,
+	"status" varchar DEFAULT 'pending' NOT NULL,
 	"notes" text,
-	"consultation_type" "consultation_type" DEFAULT 'in-person' NOT NULL,
+	"consultation_type" varchar DEFAULT 'in-person' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "chat_messages" (
+CREATE TABLE "chat_messages" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"consultation_id" uuid NOT NULL,
 	"sender_id" uuid NOT NULL,
@@ -82,7 +21,7 @@ CREATE TABLE IF NOT EXISTS "chat_messages" (
 	"timestamp" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "consultations" (
+CREATE TABLE "consultations" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"appointment_id" uuid NOT NULL,
 	"doctor_id" uuid NOT NULL,
@@ -94,7 +33,7 @@ CREATE TABLE IF NOT EXISTS "consultations" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "doctor" (
+CREATE TABLE "doctor" (
 	"user_id" uuid NOT NULL,
 	"healthcare_provider_id" uuid NOT NULL,
 	"specialization" varchar(255) NOT NULL,
@@ -104,7 +43,7 @@ CREATE TABLE IF NOT EXISTS "doctor" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "feedback" (
+CREATE TABLE "feedback" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"patient_id" uuid NOT NULL,
 	"doctor_id" uuid NOT NULL,
@@ -114,7 +53,7 @@ CREATE TABLE IF NOT EXISTS "feedback" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "healthcare_providers" (
+CREATE TABLE "healthcare_providers" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"address" text NOT NULL,
@@ -131,7 +70,7 @@ CREATE TABLE IF NOT EXISTS "healthcare_providers" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "medical_records" (
+CREATE TABLE "medical_records" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"patient_id" uuid NOT NULL,
 	"appointment_id" uuid NOT NULL,
@@ -143,46 +82,77 @@ CREATE TABLE IF NOT EXISTS "medical_records" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "notifications" (
+CREATE TABLE "notifications" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" uuid NOT NULL,
-	"type" "notification_type" DEFAULT 'appointment_reminder' NOT NULL,
+	"type" varchar DEFAULT 'appointment_reminder' NOT NULL,
 	"message" text NOT NULL,
 	"is_read" boolean DEFAULT false NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "resource_inventory" (
+CREATE TABLE "patient_schema" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"address" text NOT NULL,
+	"local_government" varchar(100) NOT NULL,
+	"city" varchar(100) NOT NULL,
+	"state" varchar(100) DEFAULT 'Edo' NOT NULL,
+	"contact_phone" varchar(20) NOT NULL,
+	"contact_email" varchar(255) NOT NULL,
+	"sickness" varchar(255) NOT NULL,
+	"created_by" uuid NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "resource_inventory" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"healthcare_provider_id" uuid NOT NULL,
 	"resource_type" varchar(100) NOT NULL,
 	"total_quantity" integer NOT NULL,
-	"available_ quantity" integer NOT NULL,
+	"available_quantity" integer NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "consultation-wellspring" (
+CREATE TABLE "consultation-wellspring" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"appointment_id" uuid NOT NULL,
-	"status" "telecommunication_status" DEFAULT 'closed' NOT NULL,
+	"status" varchar DEFAULT 'closed' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "user" (
+CREATE TABLE "user" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"phone" varchar(20),
 	"password" text NOT NULL,
 	"first_name" varchar(100) NOT NULL,
 	"last_name" varchar(100) NOT NULL,
-	"role" "role" DEFAULT 'patient' NOT NULL,
+	"role" varchar DEFAULT 'patient' NOT NULL,
 	"specialization" varchar(255),
 	"license_no" varchar(100),
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "user_email_unique" UNIQUE("email")
+);
+--> statement-breakpoint
+CREATE TABLE "vivy_chats" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"title" varchar(255) NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"user_id" uuid NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "vivy_messages" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"chat_id" uuid NOT NULL,
+	"role" varchar(20) NOT NULL,
+	"content" text NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "appointment-table" ADD CONSTRAINT "appointment-table_patient_id_user_id_fk" FOREIGN KEY ("patient_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
@@ -202,5 +172,8 @@ ALTER TABLE "medical_records" ADD CONSTRAINT "medical_records_patient_id_user_id
 ALTER TABLE "medical_records" ADD CONSTRAINT "medical_records_appointment_id_appointment-table_id_fk" FOREIGN KEY ("appointment_id") REFERENCES "public"."appointment-table"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "medical_records" ADD CONSTRAINT "medical_records_recorded_by_user_id_fk" FOREIGN KEY ("recorded_by") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "notifications" ADD CONSTRAINT "notifications_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "patient_schema" ADD CONSTRAINT "patient_schema_created_by_user_id_fk" FOREIGN KEY ("created_by") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "resource_inventory" ADD CONSTRAINT "resource_inventory_healthcare_provider_id_healthcare_providers_id_fk" FOREIGN KEY ("healthcare_provider_id") REFERENCES "public"."healthcare_providers"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "consultation-wellspring" ADD CONSTRAINT "consultation-wellspring_appointment_id_appointment-table_id_fk" FOREIGN KEY ("appointment_id") REFERENCES "public"."appointment-table"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "consultation-wellspring" ADD CONSTRAINT "consultation-wellspring_appointment_id_appointment-table_id_fk" FOREIGN KEY ("appointment_id") REFERENCES "public"."appointment-table"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "vivy_chats" ADD CONSTRAINT "vivy_chats_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "vivy_messages" ADD CONSTRAINT "vivy_messages_chat_id_vivy_chats_id_fk" FOREIGN KEY ("chat_id") REFERENCES "public"."vivy_chats"("id") ON DELETE cascade ON UPDATE no action;

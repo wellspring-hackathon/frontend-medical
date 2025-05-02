@@ -4,15 +4,10 @@ import {
   boolean,
   timestamp,
   uuid,
-  pgEnum
+  varchar
 } from "drizzle-orm/pg-core";
 import { user } from "./user";
 import { relations } from "drizzle-orm";
-
-export const notificationsTypeEnum = pgEnum("notification_type", [
-  "appointment_reminder",
-  "booking_confirmation"
-]);
 
 export const notifications = pgTable("notifications", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -21,7 +16,7 @@ export const notifications = pgTable("notifications", {
     .references(() => user.id, {
       onDelete: "cascade"
     }),
-  type: notificationsTypeEnum("type").default("appointment_reminder").notNull(),
+  type: varchar("type").default("appointment_reminder").notNull(),
   message: text("message").notNull(),
   isRead: boolean("is_read").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true })
