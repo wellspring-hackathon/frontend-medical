@@ -1,6 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRightIcon, Pointer, Search } from "lucide-react";
-import Link from "next/link";
 import { Badge } from "../ui/badge";
 import RegisterButton from "./register-button";
 import SearchButton from "./search-button";
