@@ -6,7 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "format": "prettier --write \"src/**/*.ts\"",
     "generate": "npx drizzle-kit generate",
     "migrate": "tsx ./src/migrate.ts",
