@@ -2,12 +2,11 @@
 
 import { db } from "@/db/connect";
 import { user } from "@/db/schema";
-import { type SomeSchema } from "@/utils/ZodSchema";
+import { type UserInsert } from "@/db/schema/user";
 import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
-import { type z } from "zod";
 
-export async function insertCoreUser(data: z.infer<typeof SomeSchema>) {
+export async function insertCoreUser(data:UserInsert) {
   const {
     email,
     firstName,
