@@ -49,7 +49,7 @@ export function DashboardSidebar({ user }: SidebarProps) {
         },
         {
           title: "My Appointments",
-          href: "/dashboard/patient/appointments",
+          href: "/dashboard/appointments",
           icon: <Calendar className="h-5 w-5" />
         },
         {
@@ -87,7 +87,7 @@ export function DashboardSidebar({ user }: SidebarProps) {
         },
         {
           title: "Appointments",
-          href: "/dashboard/doctor/appointments",
+          href: "/dashboard/dashboard/appointments",
           icon: <Calendar className="h-5 w-5" />
         },
         {
@@ -150,7 +150,7 @@ export function DashboardSidebar({ user }: SidebarProps) {
         },
         {
           title: "Appointments",
-          href: "/dashboard/provider/appointments",
+          href: "/dashboard/dashboard/appointments",
           icon: <Calendar className="h-5 w-5" />
         },
         {
