@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
+import { FormEvent } from "react";
 
 type HeaderProps = {
   user: {
@@ -27,20 +28,23 @@ export function DashboardHeader({ user }: HeaderProps) {
   const getInitials = (firstName: string, lastName: string) => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   };
+  
 
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center border-b bg-background px-4 lg:px-6">
       <div className="hidden md:block">
-        <form>
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search..."
-              className="w-64 rounded-lg bg-background pl-8 md:w-80"
-            />
-          </div>
-        </form>
+      <form action="/dashboard/search" method="GET" className="flex gap-2">
+  <input
+    type="text"
+    name="q"
+    placeholder="Search doctors or providers..."
+    className="px-3 py-2 border rounded w-full"
+    defaultValue={""}
+  />
+  <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+    Search
+  </button>
+</form>
       </div>
       <div className="ml-auto flex items-center gap-2">
         <Button variant="ghost" size="icon" className="rounded-full">

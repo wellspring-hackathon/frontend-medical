@@ -7,7 +7,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 function getUser() {
   // This would be your actual auth check
   // For testing, you can change the role to: "patient", "doctor", "provider", or "admin"
-  const role = "provider"; // Change this to test different roles
+  const role = "patient"; // Change this to test different roles
 
   return {
     id: "user_123",

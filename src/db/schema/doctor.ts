@@ -9,6 +9,7 @@ export const doctor = pgTable("doctor", {
     .references(() => user.id, {
       onDelete: "cascade"
     }),
+  name:  varchar("name", { length: 255 }).notNull(),
   healthcareProviderId: uuid("healthcare_provider_id")
     .notNull()
     .references(() => healthcareProviders.id, {
