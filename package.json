@@ -2,10 +2,6 @@
   "name": "frontend-medical",
   "version": "0.1.0",
   "private": true,
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --fix",
-    "*.{js,jsx,ts,tsx,css,md}": "prettier --write"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -14,9 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "generate": "npx drizzle-kit generate",
     "migrate": "tsx ./src/migrate.ts",
-    "db:update": "npm run generate && tsx ./src/migrate.ts",
-    "prepare": "husky",
-    "lint-staged": "lint-staged"
+    "db:update": "npm run generate && tsx ./src/migrate.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
