@@ -1,18 +1,12 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { type messagesSelect } from "@/db/schema/vivyMessages";
 import { useSession } from "next-auth/react";
 import { ChatBubble } from "./ChatBubble";
 import { ChatTextArea } from "./ChatTextBox";
 import useSocket from "@/custom-hooks/useSockets";
 import ChatSkeleton from "./ChatSuspense";
 
-export default function VivyChat({
-  initialMessages
-}: {
-  initialMessages: messagesSelect[];
-  chatId: string;
-}) {
+export default function VivyChat() {
   const session = useSession();
   const { chats, sendMessage } = useSocket();
   const [message, setMessage] = useState("");
@@ -31,7 +25,7 @@ export default function VivyChat({
     <div className="flex h-[100svh] flex-col">
       {/* Chat Messages */}
       <div className="scrollbar-ghost flex-1 space-y-3 overflow-y-auto px-4 py-4">
-        {initialMessages.length > 0 &&
+        {chats.length > 0 &&
           chats.map((chat, i) => {
             const date = new Date(chat.milliseconds);
             return (

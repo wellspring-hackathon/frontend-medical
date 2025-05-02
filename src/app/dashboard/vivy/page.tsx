@@ -18,7 +18,7 @@ export default async function VivyChatPage() {
         {chats.map((chat) => (
           <Link
             key={chat.id}
-            href={`/dashboard/chat/${chat.id}`}
+            href={`/dashboard/vivy/${chat.id}`}
             className="block rounded-2xl border border-gray-100 bg-white p-4 shadow transition duration-200 hover:shadow-md">
             <h2 className="line-clamp-1 text-lg font-semibold text-gray-800">
               {chat.title}
