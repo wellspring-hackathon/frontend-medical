@@ -5,12 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // import { toast } from "sonner";
 import { useState } from "react";
 // import { insertCoreUser } from "@/server-action/Insert/InsertNewUser";
-import { RegisterSchema, type RegisterSchemaType } from "@/utils/ZodSchema";
-
+import { RegisterSchema } from "@/utils/ZodSchema";
+import { type z } from "zod";
+type RegisterFormValues = z.infer<typeof RegisterSchema>;
 export const useRegister = () => {
   // const { push } = useRouter();
   const [loading, setLoading] = useState(false);
-  const form = useForm<RegisterSchemaType>({
+  const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       firstName: "",
